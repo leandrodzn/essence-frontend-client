@@ -1,6 +1,12 @@
-<script setup>
+<script>
 import { RouterLink, RouterView } from "vue-router";
-import HelloWorld from "./components/HelloWorld.vue";
+import Footer from "./components/Footer.vue";
+
+export default {
+  components: {
+    Footer,
+  },
+};
 </script>
 
 <template>
@@ -19,10 +25,13 @@ import HelloWorld from "./components/HelloWorld.vue";
       <RouterLink to="/">Contacto</RouterLink>
       <RouterLink to="/about">Favoritos</RouterLink>
       <RouterLink to="/about">Historial</RouterLink>
+      <button to="/about" type="button" class="btn btn-primary">Hola</button>
     </nav>
   </header>
 
   <RouterView />
+
+  <Footer />
 </template>
 
 <style scoped>
@@ -76,8 +85,8 @@ nav a {
   }
 
   nav {
-    text-align: left;
-    margin-left: -1rem;
+    text-align: right;
+    margin-right: -1rem;
     font-size: 1rem;
 
     padding: 1rem 0;
