@@ -10,7 +10,7 @@ This template should help get you started developing with Vue 3 in Vite.
 
 bash
 ```sh
-  git clone https://gitlab.com/sunum/rslab-frontend-admin.git](https://github.com/leandrodzn/beluessence-creatives-front.git
+  git clone https://github.com/leandrodzn/beluessence-creatives-front.git
 ```
 
 ### Go to the project directory
