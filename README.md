@@ -1,29 +1,59 @@
-# beluessence-creatives
+
+# BeluEssence Creatives
 
 This template should help get you started developing with Vue 3 in Vite.
 
-## Recommended IDE Setup
+## Run Locally 
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-## Customize configuration
+### Clone the project
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
+bash
 ```sh
-npm install
+  git clone https://github.com/leandrodzn/beluessence-creatives-front.git
 ```
 
-### Compile and Hot-Reload for Development
+### Go to the project directory
 
+bash
 ```sh
-npm run dev
+  cd beluessence-creatives
 ```
 
-### Compile and Minify for Production
-
+### Create your branch
+bash
 ```sh
-npm run build
+  git branch name/develop // example: leandro/develop, wilder/develop
 ```
+
+### Change to your branch
+bash
+```sh
+  git checkout name/develop
+```
+
+### Install dependencies
+
+bash
+```sh
+  npm install
+```
+
+### Start the server
+
+bash
+```sh
+  npm run dev
+```
+
+### Push your branch
+bash
+```sh
+  git push origin name/develop
+```
+
+#### Don't forget to set your global profile in Git
+
+## Authors
+
+- [@BeluEssence Creatives]()
