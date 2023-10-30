@@ -26,6 +26,11 @@ bash
   git branch name/develop // example: leandro/develop, wilder/develop
 ```
 
+### Change to your branch
+bash
+```sh
+  git checkout name/develop
+```
 
 ### Install dependencies
 
@@ -40,6 +45,14 @@ bash
 ```sh
   npm run dev
 ```
+
+### Push your branch
+bash
+```sh
+  git push origin name/develop
+```
+
+#### Don't forget to set your global profile in Git
 
 ## Authors
 
