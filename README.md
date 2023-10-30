@@ -20,6 +20,13 @@ bash
   cd beluessence-creatives
 ```
 
+### Create your branch
+bash
+```sh
+  git branch name/develop // example: leandro/develop, wilder/develop
+```
+
+
 ### Install dependencies
 
 bash
