@@ -19,8 +19,13 @@ const router = createRouter({
     },
     {
       path: '/templates',
-      name: 'hotemplatesme',
+      name: 'templates',
       component: () => import('../views/TemplatesView.vue')
+    },
+    {
+      path: '/favorites',
+      name: 'favorites',
+      component: () => import('../views/FavoritesView.vue')
     },
   ]
 })

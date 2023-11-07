@@ -1,8 +1,4 @@
 <template class="body">
-    <div class="text-center">
-        <h1 class="title">Escoge tu plantilla </h1>
-        <h4 class="subtitle">Empecemos la magia </h4>
-    </div>
     <div class="contenedor">
         <select class="custom-select" >
             <option selected>Buscar por tipo</option>
@@ -25,7 +21,7 @@
                         <vue-feather type="minus" size="30px" stroke="rgb(150, 61, 130)"
                             fill="rgb(150, 61, 130)"></vue-feather>
                         <h3 class="card-text">${{ plantilla.precio }} MXN </h3>
-                        <vue-feather type="heart" size="36px" class="icon"></vue-feather>
+                        <vue-feather type="heart" size="36px" class="icon" stroke="rgb(150, 61, 130)" fill="rgb(150, 61, 130)" v-if="favorite"></vue-feather>
                     </div>
                 </div>
             </div>
@@ -34,7 +30,9 @@
 </template>
 <script>
 export default {
-
+    props: {
+        favorite: Boolean,
+    },
     data: () => ({
         plantillas: [],
     }),

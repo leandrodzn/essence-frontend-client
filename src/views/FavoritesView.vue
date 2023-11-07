@@ -9,12 +9,12 @@ export default {
 </script>
 
 <template>
-    <div class="templates">
+    <div class="favorites">
       <div class="text-center">
-        <h1 class="title">Escoge tu plantilla </h1>
-        <h4 class="subtitle">Empecemos la magia </h4>
+        <h1 class="title">Mis plantillas favoritas</h1>
+        <h4 class="subtitle">Revivie el momento</h4>
     </div>
-        <Cards :favorite="false"></Cards>
+        <Cards :favorite="true"></Cards>
     </div>
 </template>
   
@@ -28,7 +28,7 @@ export default {
     font-weight: lighter;
 }
 @media (min-width: 1024px) {
-  .templates {
+  .favorites {
     min-height: 100vh;
     align-items: center;
   }
