@@ -1,14 +1,3 @@
-<script>
-import { RouterLink, RouterView } from "vue-router";
-import Footer from "./components/Footer.vue";
-
-export default {
-  components: {
-    Footer,
-  },
-};
-</script>
-
 <template>
   <header>
     <img
@@ -25,7 +14,9 @@ export default {
       <RouterLink to="/">Contacto</RouterLink>
       <RouterLink to="/favorites">Favoritos</RouterLink>
       <RouterLink to="/about">Historial</RouterLink>
-      <button to="/about" type="button" class="btn btn-primary">Hola</button>
+      <button to="/about" type="button" class="btn btn-primary">
+        Iniciar sesión
+      </button>
     </nav>
   </header>
 
@@ -33,6 +24,17 @@ export default {
 
   <Footer />
 </template>
+
+<script>
+import { RouterLink, RouterView } from "vue-router";
+import Footer from "./components/Footer.vue";
+
+export default {
+  components: {
+    Footer,
+  },
+};
+</script>
 
 <style scoped>
 header {
