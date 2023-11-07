@@ -21,7 +21,7 @@ export default {
 
     <nav>
       <RouterLink to="/">Inicio</RouterLink>
-      <RouterLink to="/">Plantillas</RouterLink>
+      <RouterLink to="/templates">Plantillas</RouterLink>
       <RouterLink to="/">Contacto</RouterLink>
       <RouterLink to="/about">Favoritos</RouterLink>
       <RouterLink to="/about">Historial</RouterLink>
