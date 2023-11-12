@@ -1,9 +1,9 @@
 <script>
-import Cards from "../components/Cards.vue";
+import FavoriteCards from "../components/FavoriteCards.vue";
 
 export default {
   components: {
-    Cards,
+    FavoriteCards,
   },
 };
 </script>
@@ -14,7 +14,7 @@ export default {
       <h1 class="title">Mis plantillas favoritas</h1>
       <h4 class="subtitle">Revive el momento</h4>
     </div>
-    <Cards :favorite="true"></Cards>
+    <FavoriteCards />
   </div>
 </template>
 

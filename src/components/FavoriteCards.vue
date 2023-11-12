@@ -1,4 +1,4 @@
-<template class="body">
+<template>
   <div class="container mb-4">
     <select class="custom-select">
       <option selected>Buscar por tipo</option>
@@ -12,7 +12,7 @@
   <div v-else class="container text-center">
     <div class="row">
       <div v-for="(template, index) in plantillas" :key="index" class="col">
-        <CardTemplate :template="template" />
+        <CardTemplate :template="template" favorite />
       </div>
     </div>
   </div>
@@ -36,6 +36,7 @@ export default {
     getPlantillas() {
       let p = [
         {
+          id: 1,
           title: "Plantilla 1",
           price: "1600",
           link: "Ver plantilla",
@@ -43,6 +44,7 @@ export default {
             "https://cdn.freebiesupply.com/logos/large/2x/vue-9-logo-png-transparent.png",
         },
         {
+          id: 2,
           title: "Plantilla 2",
           price: "1600",
           link: "Ver plantilla",
@@ -50,6 +52,7 @@ export default {
             "https://cdn.freebiesupply.com/logos/large/2x/vue-9-logo-png-transparent.png",
         },
         {
+          id: 3,
           title: "Plantilla 3",
           price: "1600",
           link: "Ver plantilla",
@@ -57,6 +60,7 @@ export default {
             "https://cdn.freebiesupply.com/logos/large/2x/vue-9-logo-png-transparent.png",
         },
         {
+          id: 4,
           title: "Plantilla 4",
           price: "1600",
           link: "Ver plantilla",
@@ -64,6 +68,7 @@ export default {
             "https://cdn.freebiesupply.com/logos/large/2x/vue-9-logo-png-transparent.png",
         },
         {
+          id: 5,
           title: "Plantilla 5",
           price: "1600",
           link: "Ver plantilla",
@@ -71,6 +76,7 @@ export default {
             "https://cdn.freebiesupply.com/logos/large/2x/vue-9-logo-png-transparent.png",
         },
         {
+          id: 6,
           title: "Plantilla 1",
           price: "1600",
           link: "Ver plantilla",
@@ -78,6 +84,7 @@ export default {
             "https://cdn.freebiesupply.com/logos/large/2x/vue-9-logo-png-transparent.png",
         },
         {
+          id: 7,
           title: "Plantilla 2",
           price: "1600",
           link: "Ver plantilla",
@@ -85,6 +92,7 @@ export default {
             "https://cdn.freebiesupply.com/logos/large/2x/vue-9-logo-png-transparent.png",
         },
         {
+          id: 8,
           title: "Plantilla 3",
           price: "1600",
           link: "Ver plantilla",
@@ -92,6 +100,7 @@ export default {
             "https://cdn.freebiesupply.com/logos/large/2x/vue-9-logo-png-transparent.png",
         },
         {
+          id: 9,
           title: "Plantilla 4",
           price: "1600",
           link: "Ver plantilla",
@@ -99,6 +108,7 @@ export default {
             "https://cdn.freebiesupply.com/logos/large/2x/vue-9-logo-png-transparent.png",
         },
         {
+          id: 10,
           title: "Plantilla 5",
           price: "1600",
           link: "Ver plantilla",

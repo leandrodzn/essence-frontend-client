@@ -6,7 +6,9 @@
       alt="..."
     />
     <div class="card-body text-center">
-      <h3 class="card-title">{{ template.title }}</h3>
+      <h3 class="card-title cursor-pointer" @click="redirectTemplate">
+        {{ template.title }}
+      </h3>
       <vue-feather
         type="minus"
         size="30px"
@@ -26,7 +28,17 @@
   </div>
 </template>
 <script>
+import { useRouter } from "vue-router";
+
 export default {
+  components: {},
+  setup() {
+    const router = useRouter();
+
+    return {
+      router,
+    };
+  },
   props: {
     template: {
       type: Object,
@@ -35,6 +47,11 @@ export default {
     favorite: {
       type: Boolean,
       default: false,
+    },
+  },
+  methods: {
+    redirectTemplate() {
+      this.router.push(`/template/${this.template.id}`);
     },
   },
 };
