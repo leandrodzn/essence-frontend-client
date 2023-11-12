@@ -1,31 +1,31 @@
 <script>
-import Cards from "../components/Cards.vue";
+import FavoriteCards from "../components/FavoriteCards.vue";
 
 export default {
   components: {
-    Cards,
+    FavoriteCards,
   },
 };
 </script>
 
 <template>
-    <div class="favorites">
-      <div class="text-center">
-        <h1 class="title">Mis plantillas favoritas</h1>
-        <h4 class="subtitle">Revivie el momento</h4>
+  <div class="favorites">
+    <div class="text-center">
+      <h1 class="title">Mis plantillas favoritas</h1>
+      <h4 class="subtitle">Revive el momento</h4>
     </div>
-        <Cards :favorite="true"></Cards>
-    </div>
+    <FavoriteCards />
+  </div>
 </template>
-  
+
 <style>
-.title{
-    font-weight: bold;
-    color: var(--primary);
+.title {
+  font-weight: bold;
+  color: var(--primary);
 }
 
 .subtitle {
-    font-weight: lighter;
+  font-weight: lighter;
 }
 @media (min-width: 1024px) {
   .favorites {
@@ -34,4 +34,3 @@ export default {
   }
 }
 </style>
-  

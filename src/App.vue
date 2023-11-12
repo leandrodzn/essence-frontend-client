@@ -1,22 +1,12 @@
-<script>
-import { RouterLink, RouterView } from "vue-router";
-import Footer from "./components/Footer.vue";
-
-export default {
-  components: {
-    Footer,
-  },
-};
-</script>
-
 <template>
   <header>
     <img
       alt="BeluEssence Creatives Logo"
-      class="logo"
+      class="logo cursor-pointer"
       src="@/assets/logo.svg"
       width="244"
       height="152"
+      @click="redirectHome"
     />
 
     <nav>
@@ -25,19 +15,49 @@ export default {
       <RouterLink to="/">Contacto</RouterLink>
       <RouterLink to="/favorites">Favoritos</RouterLink>
       <RouterLink to="/about">Historial</RouterLink>
-      <button to="/about" type="button" class="btn btn-primary">Hola</button>
+      <button to="/about" type="button" class="btn btn-primary mx-2">
+        Iniciar sesión
+      </button>
     </nav>
   </header>
 
-  <RouterView />
+  <RouterView class="main-content" />
 
   <Footer />
 </template>
+
+<script>
+import { RouterLink, RouterView } from "vue-router";
+import Footer from "./components/Footer.vue";
+import { useRouter } from "vue-router";
+
+export default {
+  components: {
+    Footer,
+  },
+  setup() {
+    const router = useRouter();
+
+    return {
+      router,
+    };
+  },
+  methods: {
+    redirectHome() {
+      this.router.push("/");
+    },
+  },
+};
+</script>
 
 <style scoped>
 header {
   line-height: 1.5;
   max-height: 100vh;
+}
+
+.main-content {
+  min-height: calc(100vh - (152px + 2rem));
 }
 
 .logo {

@@ -67,6 +67,8 @@ export default {
   width: 100%;
   padding: 15px;
   color: var(--white);
+
+  bottom: 0;
 }
 
 .title {
