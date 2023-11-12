@@ -12,7 +12,7 @@
     <nav>
       <RouterLink to="/">Inicio</RouterLink>
       <RouterLink to="/templates">Plantillas</RouterLink>
-      <RouterLink to="/">Contacto</RouterLink>
+      <RouterLink to="/contact">Contacto</RouterLink>
       <RouterLink to="/favorites">Favoritos</RouterLink>
       <RouterLink to="/about">Historial</RouterLink>
       <button to="/about" type="button" class="btn btn-primary mx-2">
@@ -57,7 +57,7 @@ header {
 }
 
 .main-content {
-  min-height: calc(100vh - (152px + 2rem));
+  min-height: calc(100vh - (100px));
 }
 
 .logo {
