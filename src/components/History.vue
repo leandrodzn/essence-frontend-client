@@ -1,9 +1,9 @@
 <template class="body">
     <div v-if="plantillas.length === 0" class="">No hay plantillas.</div>
     <div v-else class="container text-center">
-        <div v-for="(plantilla, index) in plantillas" :key="index" class="container text-center">
-            <div class="card mb-3" style="max-width: 70rem;">
-                <div class="row g-0">
+        <div v-for="(plantilla, index) in plantillas" :key="index">
+            <div class="card mb-3" >
+                <div class="row">
                     <div class="col-md-5 px-3 py-3">
                         <img src="https://asset1.zankyou.com/images/wervice-card-big/20b/1eda/1050/800/w/837417/-/1594225062.jpg"
                             class="img-fluid rounded-start" alt="...">
