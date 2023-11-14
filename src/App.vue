@@ -15,7 +15,7 @@
       <RouterLink to="/templates">Plantillas</RouterLink>
       <RouterLink to="/contact">Contacto</RouterLink>
       <RouterLink to="/favorites">Favoritos</RouterLink>
-      <RouterLink to="/about">Historial</RouterLink>
+      <RouterLink to="/history">Historial</RouterLink>
       <button @click="redirectLogin" type="button" class="btn btn-primary mx-2">
         Iniciar sesión
       </button>
