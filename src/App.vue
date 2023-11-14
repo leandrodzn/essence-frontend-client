@@ -24,7 +24,7 @@ export default {
       <RouterLink to="/templates">Plantillas</RouterLink>
       <RouterLink to="/">Contacto</RouterLink>
       <RouterLink to="/favorites">Favoritos</RouterLink>
-      <RouterLink to="/about">Historial</RouterLink>
+      <RouterLink to="/history">Historial</RouterLink>
       <button to="/about" type="button" class="btn btn-primary">Hola</button>
     </nav>
   </header>

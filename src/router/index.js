@@ -26,6 +26,10 @@ const router = createRouter({
       path: '/favorites',
       name: 'favorites',
       component: () => import('../views/FavoritesView.vue')
+    },{
+      path: '/history',
+      name: 'history',
+      component: () => import('../views/TemplatesHistoryView.vue')
     },
   ]
 })
