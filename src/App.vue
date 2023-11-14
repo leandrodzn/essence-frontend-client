@@ -1,21 +1,22 @@
 <template>
-  <header>
+  <header :class="{ inLogin: useLogin.inLogin }">
     <img
       alt="BeluEssence Creatives Logo"
       class="logo cursor-pointer"
+      :class="{ inLogin: useLogin.inLogin }"
       src="@/assets/logo.svg"
       width="244"
       height="152"
       @click="redirectHome"
     />
 
-    <nav>
+    <nav v-if="!useLogin.inLogin">
       <RouterLink to="/">Inicio</RouterLink>
       <RouterLink to="/templates">Plantillas</RouterLink>
       <RouterLink to="/contact">Contacto</RouterLink>
       <RouterLink to="/favorites">Favoritos</RouterLink>
       <RouterLink to="/about">Historial</RouterLink>
-      <button to="/about" type="button" class="btn btn-primary mx-2">
+      <button @click="redirectLogin" type="button" class="btn btn-primary mx-2">
         Iniciar sesión
       </button>
     </nav>
@@ -30,6 +31,7 @@
 import { RouterLink, RouterView } from "vue-router";
 import Footer from "./components/Footer.vue";
 import { useRouter } from "vue-router";
+import { useLoginStore } from "@/store/login.js";
 
 export default {
   components: {
@@ -38,19 +40,26 @@ export default {
   setup() {
     const router = useRouter();
 
+    const useLogin = useLoginStore();
+
     return {
       router,
+      useLogin,
     };
   },
   methods: {
     redirectHome() {
       this.router.push("/");
     },
+
+    redirectLogin() {
+      this.router.push("/login");
+    },
   },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 header {
   line-height: 1.5;
   max-height: 100vh;
@@ -91,11 +100,20 @@ nav a {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-right: calc(var(--section-gap) / 2);
+    padding-right: calc(var(--section-gap) / 4);
+
+    &.inLogin {
+      justify-content: center;
+      padding-right: 0;
+    }
   }
 
   .logo {
     margin: 0 2rem 0 0;
+
+    &.inLogin {
+      margin: 0 0 4rem 0;
+    }
   }
 
   header .wrapper {
