@@ -4,9 +4,9 @@
         <div v-for="(plantilla, index) in plantillas" :key="index">
             <div class="card mb-3" >
                 <div class="row">
-                    <div class="col-md-5 px-3 py-3">
+                    <div class="col-md-5">
                         <img src="https://asset1.zankyou.com/images/wervice-card-big/20b/1eda/1050/800/w/837417/-/1594225062.jpg"
-                            class="img-fluid rounded-start" alt="...">
+                            class="img-fluid rounded-start px-3 py-3" alt="...">
                     </div>
                     <div class="col-md-7">
                         <div class="card-body">
