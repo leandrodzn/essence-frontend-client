@@ -30,6 +30,10 @@ const router = createRouter({
       path: '/history',
       name: 'history',
       component: () => import('../views/TemplatesHistoryView.vue')
+    },{
+      path: '/content',
+      name: 'content',
+      component: () => import('../views/ContentView.vue')
     },
   ]
 })
