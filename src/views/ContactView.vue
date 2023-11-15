@@ -1,20 +1,19 @@
 <script>
-import FavoriteCards from "../components/FavoriteCards.vue";
-
+import ContactForm from "../forms/ContactForm.vue";
 export default {
   components: {
-    FavoriteCards,
+    ContactForm,
   },
 };
 </script>
 
 <template>
-  <div class="favorites">
+  <div class="container">
     <div class="text-center">
-      <h1 class="title">Mis plantillas favoritas</h1>
-      <h4 class="subtitle">Revive el momento</h4>
+      <h1 class="title">Ponte en contacto con nosotros</h1>
+      <h4 class="subtitle">Creamos para ti</h4>
+      <ContactForm class="mt-4 mb-4" />
     </div>
-    <FavoriteCards />
   </div>
 </template>
 
