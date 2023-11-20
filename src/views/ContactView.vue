@@ -1,5 +1,5 @@
 <script>
-import ContactForm from "../forms/ContactForm.vue";
+import ContactForm from "@/forms/ContactForm.vue";
 export default {
   components: {
     ContactForm,
@@ -17,7 +17,7 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
 .title {
   font-weight: bold;
   color: var(--primary);
@@ -25,11 +25,5 @@ export default {
 
 .subtitle {
   font-weight: lighter;
-}
-@media (min-width: 1024px) {
-  .favorites {
-    min-height: 100vh;
-    align-items: center;
-  }
 }
 </style>
