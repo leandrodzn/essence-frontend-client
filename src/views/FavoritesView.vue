@@ -18,7 +18,7 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
 .title {
   font-weight: bold;
   color: var(--primary);

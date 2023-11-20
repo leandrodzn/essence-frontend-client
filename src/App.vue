@@ -1,16 +1,15 @@
 <template>
-  <header :class="{ inLogin: useLogin.inLogin }">
+  <header :class="{ inLogin: inLogin }">
     <img
       alt="BeluEssence Creatives Logo"
       class="logo cursor-pointer"
-      :class="{ inLogin: useLogin.inLogin }"
-      src="@/assets/logo.svg"
+      :class="{ inLogin: inLogin }"
+      src="../../public/logo.svg"
       width="244"
       height="152"
       @click="redirectHome"
     />
-
-    <nav v-if="!useLogin.inLogin">
+    <nav v-if="!inLogin">
       <RouterLink to="/">Inicio</RouterLink>
       <RouterLink to="/templates">Plantillas</RouterLink>
       <RouterLink to="/contact">Contacto</RouterLink>
@@ -46,6 +45,11 @@ export default {
       router,
       useLogin,
     };
+  },
+  computed: {
+    inLogin() {
+      return this.useLogin.inLogin;
+    },
   },
   methods: {
     redirectHome() {
@@ -95,6 +99,12 @@ nav a {
   /* border-left: 1px solid var(--color-border); */
 }
 
+@media (hover: hover) {
+  a:hover {
+    border-bottom: 1px solid var(--primary);
+  }
+}
+
 @media (min-width: 1024px) {
   header {
     display: flex;
@@ -112,7 +122,7 @@ nav a {
     margin: 0 2rem 0 0;
 
     &.inLogin {
-      margin: 0 0 4rem 0;
+      margin: 0 0 2rem 0;
     }
   }
 

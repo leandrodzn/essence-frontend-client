@@ -1,0 +1,121 @@
+<template>
+  <div class="form text-center mt-2">
+    <h2 class="title">Iniciar sesión</h2>
+    <div class="mb-3">Ingrese sus credenciales</div>
+    <form class="mb-4" @submit.prevent="login">
+      <div
+        class="form-floating mb-3"
+        :class="{ error: v$.email.$errors.length }"
+      >
+        <input
+          v-model="email"
+          class="form-control"
+          type="text"
+          placeholder="Correo electrónico"
+          aria-label="default input example"
+          id="floatingInputSubject"
+        />
+        <label for="floatingInputSubject">Correo electrónico</label>
+        <div v-if="v$.email.$error" class="form-text">
+          Correo electrónico es requerido
+        </div>
+      </div>
+
+      <div
+        class="form-floating mb-3"
+        :class="{ error: v$.password.$errors.length }"
+      >
+        <input
+          v-model="password"
+          class="form-control"
+          type="password"
+          placeholder="Contraseña"
+          aria-label="default input example"
+          id="floatingInputSubject"
+        />
+        <label for="floatingInputSubject">Contraseña</label>
+        <div v-if="v$.password.$error" class="form-text mb-2">
+          Contraseña es requerida
+        </div>
+
+        <RouterLink to="/history" class="forgot-password">
+          ¿Olvidaste tu contraseña?
+        </RouterLink>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+    </form>
+
+    <div class="mb-0">¿No tienes una cuenta?</div>
+    <RouterLink to="/history" class="register-link">Regístrate</RouterLink>
+  </div>
+</template>
+<script>
+import { useVuelidate } from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
+import { RouterLink } from "vue-router";
+
+export default {
+  components: {
+    RouterLink,
+  },
+  setup() {
+    return { v$: useVuelidate() };
+  },
+  data() {
+    return {
+      email: "",
+      password: "",
+    };
+  },
+  validations() {
+    return {
+      email: { required },
+      password: { required },
+    };
+  },
+  methods: {
+    async login() {
+      const isFormCorrect = await this.v$.$validate();
+
+      if (isFormCorrect) {
+        console.log("Valido");
+      } else {
+        console.log("Invalido");
+      }
+    },
+  },
+};
+</script>
+<style lang="scss" scoped>
+.title {
+  font-weight: bold;
+  color: var(--primary);
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+  // justify-content: center;
+  // width: 100%;
+
+  .forgot-password {
+    font-weight: 400;
+    font-size: 95%;
+    color: var(--primary);
+
+    &:hover {
+      font-weight: 500;
+    }
+  }
+}
+
+.register-link {
+  font-weight: 500;
+  font-size: 120%;
+
+  &:hover {
+    font-weight: 700;
+  }
+}
+</style>
