@@ -19,13 +19,14 @@ const router = createRouter({
       component: () => import("../views/ContactView.vue"),
     },
     {
-      path: '/history',
-      name: 'History',
-      component: () => import('../views/TemplatesHistoryView.vue')
-    },{
-      path: '/content',
-      name: 'content',
-      component: () => import('../views/ContentView.vue')
+      path: "/history",
+      name: "History",
+      component: () => import("../views/TemplatesHistoryView.vue"),
+    },
+    {
+      path: "/content",
+      name: "content",
+      component: () => import("../views/ContentView.vue"),
     },
     {
       path: "/templates",
@@ -41,6 +42,11 @@ const router = createRouter({
       path: "/login",
       name: "Login",
       component: () => import("../views/LoginView.vue"),
+    },
+    {
+      path: "/register",
+      name: "Register",
+      component: () => import("../views/RegisterView.vue"),
     },
     {
       path: "/favorites",

@@ -10,13 +10,12 @@
         <input
           v-model="email"
           class="form-control"
-          type="text"
+          type="email"
           placeholder="Correo electrónico"
-          aria-label="default input example"
           id="floatingInputSubject"
         />
         <label for="floatingInputSubject">Correo electrónico</label>
-        <div v-if="v$.email.$error" class="form-text">
+        <div v-if="v$.email.$error" class="validation-text">
           Correo electrónico es requerido
         </div>
       </div>
@@ -30,11 +29,10 @@
           class="form-control"
           type="password"
           placeholder="Contraseña"
-          aria-label="default input example"
           id="floatingInputSubject"
         />
         <label for="floatingInputSubject">Contraseña</label>
-        <div v-if="v$.password.$error" class="form-text mb-2">
+        <div v-if="v$.password.$error" class="validation-text mb-2">
           Contraseña es requerida
         </div>
 
@@ -47,12 +45,12 @@
     </form>
 
     <div class="mb-0">¿No tienes una cuenta?</div>
-    <RouterLink to="/history" class="register-link">Regístrate</RouterLink>
+    <RouterLink to="/register" class="register-link">Regístrate</RouterLink>
   </div>
 </template>
 <script>
 import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
+import { email, required } from "@vuelidate/validators";
 import { RouterLink } from "vue-router";
 
 export default {
@@ -70,7 +68,7 @@ export default {
   },
   validations() {
     return {
-      email: { required },
+      email: { email, required },
       password: { required },
     };
   },
@@ -98,6 +96,13 @@ export default {
   // align-items: center;
   // justify-content: center;
   // width: 100%;
+
+  .validation-text {
+    // font-weight: 400;
+    margin: 5px;
+    font-size: 80%;
+    color: var(--primary);
+  }
 
   .forgot-password {
     font-weight: 400;
