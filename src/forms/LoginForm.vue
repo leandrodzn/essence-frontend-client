@@ -52,13 +52,17 @@
 import { useVuelidate } from "@vuelidate/core";
 import { email, required } from "@vuelidate/validators";
 import { RouterLink } from "vue-router";
+import { useLoginStore } from "@/store/login.js";
 
 export default {
   components: {
     RouterLink,
   },
   setup() {
-    return { v$: useVuelidate() };
+    const useLogin = useLoginStore();
+    const v$ = useVuelidate();
+
+    return { v$, useLogin };
   },
   data() {
     return {
@@ -77,9 +81,7 @@ export default {
       const isFormCorrect = await this.v$.$validate();
 
       if (isFormCorrect) {
-        console.log("Valido");
-      } else {
-        console.log("Invalido");
+        this.useLogin.setIsLogged(true);
       }
     },
   },

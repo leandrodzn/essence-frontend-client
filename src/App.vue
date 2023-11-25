@@ -1,21 +1,27 @@
 <template>
-  <header :class="{ inLogin: inLogin }">
+  <header :class="{ inLogin: inLogin || inRegister }">
     <img
       alt="BeluEssence Creatives Logo"
       class="logo cursor-pointer"
-      :class="{ inLogin: inLogin }"
+      :class="{ inLogin: inLogin || inRegister }"
       src="../../public/logo.svg"
       width="244"
       height="152"
       @click="redirectHome"
     />
-    <nav v-if="!inLogin">
+
+    <nav v-if="!inLogin && !inRegister">
       <RouterLink to="/">Inicio</RouterLink>
       <RouterLink to="/templates">Plantillas</RouterLink>
       <RouterLink to="/contact">Contacto</RouterLink>
-      <RouterLink to="/favorites">Favoritos</RouterLink>
-      <RouterLink to="/history">Historial</RouterLink>
-      <button @click="redirectLogin" type="button" class="btn btn-primary mx-2">
+      <RouterLink to="/favorites" v-if="isLogged">Favoritos</RouterLink>
+      <RouterLink to="/history" v-if="isLogged">Historial</RouterLink>
+      <button
+        @click="redirectLogin"
+        type="button"
+        class="btn btn-primary mx-2"
+        v-if="!isLogged"
+      >
         Iniciar sesión
       </button>
     </nav>
@@ -49,6 +55,14 @@ export default {
   computed: {
     inLogin() {
       return this.useLogin.inLogin;
+    },
+
+    inRegister() {
+      return this.useLogin.inRegister;
+    },
+
+    isLogged() {
+      return this.useLogin.isLogged;
     },
   },
   methods: {
