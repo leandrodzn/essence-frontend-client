@@ -1,4 +1,15 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { useLoginStore } from "../store/login";
+
+const requireLogged = (to, from, next) => {
+  const useLogin = useLoginStore();
+
+  if (useLogin.isLogged) {
+    next();
+  } else {
+    next("/login");
+  }
+};
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,6 +33,7 @@ const router = createRouter({
       path: "/history",
       name: "History",
       component: () => import("../views/TemplatesHistoryView.vue"),
+      beforeEnter: requireLogged,
     },
     {
       path: "/content",
@@ -52,6 +64,7 @@ const router = createRouter({
       path: "/favorites",
       name: "Favorites",
       component: () => import("../views/FavoritesView.vue"),
+      beforeEnter: requireLogged,
     },
     {
       path: "/:pathMatch(.*)*",
