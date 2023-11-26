@@ -1,13 +1,19 @@
 <template>
-  <div class="about">
-    <h1>This is an info page about template {{ $route.params.id }}</h1>
+  <div class="content">
+    <div class="">
+      <content :template-id="template"></content>
+    </div>
   </div>
 </template>
 
 <script>
 import { useRoute } from "vue-router";
+import Content from "../components/Content.vue";
 
 export default {
+  components: {
+    Content,
+  },
   setup() {
     const route = useRoute();
 
@@ -15,14 +21,25 @@ export default {
       route,
     };
   },
+  data() {
+    return {
+      template: -1,
+    };
+  },
+  mounted() {
+    this.template = isNaN(this.$route.params.id)
+      ? -1
+      : Number(this.$route.params.id);
+
+    window.scrollTo(0, 0); // lleva a arriba
+  },
 };
 </script>
 
 <style>
 @media (min-width: 1024px) {
-  .about {
+  .content {
     min-height: 100vh;
-    display: flex;
     align-items: center;
   }
 }

@@ -115,5 +115,9 @@ export const useTemplatesStore = defineStore("templates", () => {
     },
   ]);
 
-  return { templates };
+  const getOneTemplate = (id) => {
+    return templates.find((template) => template.id === id);
+  };
+
+  return { templates, getOneTemplate };
 });
