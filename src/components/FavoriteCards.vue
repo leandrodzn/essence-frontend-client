@@ -1,17 +1,20 @@
 <template>
   <div class="container mb-4">
-    <select class="custom-select">
-      <option selected>Buscar por tipo</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
+    <select class="custom-select" v-model="typeSelected">
+      <option selected :value="null">
+        {{ typeSelected ? "Todos" : "Tipo de evento" }}
+      </option>
+
+      <option v-for="event in events" :key="event.value" :value="event.value">
+        {{ event.name }}
+      </option>
     </select>
   </div>
 
-  <div v-if="favorites.length === 0" class="">No hay plantillas.</div>
+  <div v-if="favoritesList.length === 0" class="">No hay plantillas.</div>
   <div v-else class="container text-center">
     <div class="row">
-      <div v-for="(template, index) in favorites" :key="index" class="col">
+      <div v-for="(template, index) in favoritesList" :key="index" class="col">
         <CardTemplate :template="template" favorite />
       </div>
     </div>
@@ -20,6 +23,7 @@
 <script>
 import CardTemplate from "./CardTemplate.vue";
 import { useFavoritesStore } from "@/store/favorites.js";
+import { useEventsStore } from "@/store/events.js";
 
 export default {
   components: {
@@ -27,17 +31,39 @@ export default {
   },
   setup() {
     const useFavorite = useFavoritesStore();
+    const useEvents = useEventsStore();
+
+    const events = useEvents.events;
+
     return {
       useFavorite,
+      events,
     };
   },
   props: {
     favorite: Boolean,
   },
-  data: () => ({}),
+  data: () => ({
+    typeSelected: null,
+  }),
   computed: {
     favorites() {
       return this.useFavorite.favorites;
+    },
+
+    favoritesList() {
+      if (this.typeSelected) {
+        const event = this.events.find(
+          (event) => event.value === this.typeSelected
+        );
+
+        const favorites = this.favorites.filter((favorite) => {
+          return favorite.events.includes(event.name);
+        });
+        return favorites;
+      } else {
+        return this.favorites;
+      }
     },
   },
   mounted() {},

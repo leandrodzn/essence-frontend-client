@@ -42,22 +42,31 @@
           </ul>
 
           <div class="center">
-            <span>Agregar plantilla a favoritos</span>
-            <button class="favorite" v-if="!favorite" @click="toggleFavorite">
-              <vue-feather
-                type="heart"
-                size="36px"
-                stroke="rgb(150, 61, 130)"
-              ></vue-feather>
-            </button>
-            <button class="favorite" v-if="favorite" @click="toggleFavorite">
-              <vue-feather
-                type="heart"
-                size="36px"
-                stroke="rgb(150, 61, 130)"
-                fill="rgb(150, 61, 130)"
-              ></vue-feather>
-            </button>
+            <template v-if="!isFavorite">
+              <span>Agregar plantilla a favoritos</span>
+              <button
+                class="favorite"
+                v-if="!isFavorite"
+                @click="addTemplateToFavorite"
+              >
+                <vue-feather
+                  type="heart"
+                  size="36px"
+                  stroke="rgb(150, 61, 130)"
+                ></vue-feather>
+              </button>
+            </template>
+            <template v-else>
+              <span>Quitar plantilla de favoritos</span>
+              <button class="favorite" @click="removeTemplateFromFavorites">
+                <vue-feather
+                  type="heart"
+                  size="36px"
+                  stroke="rgb(150, 61, 130)"
+                  fill="rgb(150, 61, 130)"
+                ></vue-feather>
+              </button>
+            </template>
           </div>
           <p>
             <small class="text-pink"
@@ -73,13 +82,16 @@
 </template>
 <script>
 import { useTemplatesStore } from "../store/templates.js";
+import { useFavoritesStore } from "../store/favorites.js";
 
 export default {
   setup() {
     const useTemplate = useTemplatesStore();
+    const useFavorite = useFavoritesStore();
 
     return {
       useTemplate,
+      useFavorite,
     };
   },
   props: {
@@ -97,6 +109,15 @@ export default {
     };
   },
 
+  computed: {
+    isFavorite() {
+      const template = this.useFavorite.favorites.find(
+        (fav) => fav.id === this.templateId
+      );
+      return template ? true : false;
+    },
+  },
+
   methods: {
     toggleFavorite() {
       this.favorite = !this.favorite;
@@ -104,6 +125,14 @@ export default {
     getTemplate() {
       const template = this.useTemplate.getOneTemplate(this.templateId);
       this.template = template;
+    },
+
+    addTemplateToFavorite() {
+      this.useFavorite.addFavorite(this.templateId);
+    },
+
+    removeTemplateFromFavorites() {
+      this.useFavorite.removeFavorite(this.templateId);
     },
   },
   watch: {

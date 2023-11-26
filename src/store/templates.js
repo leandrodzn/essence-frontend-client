@@ -23,7 +23,7 @@ export const useTemplatesStore = defineStore("templates", () => {
         "https://asset1.zankyou.com/images/wervice-card-big/20b/1eda/1050/800/w/837417/-/1594225062.jpg",
       description:
         "Una plantilla vibrante y colorida ideal para celebraciones al aire libre. Su diseño fresco y alegre encaja perfectamente con eventos en jardines y entornos naturales.",
-      events: ["Cumpleaños", "Baby Showers", "Evento Casual"],
+      events: ["Cumpleaños", "Baby Showers", "Evento Casual", "Bautizos"],
     },
     {
       id: 3,

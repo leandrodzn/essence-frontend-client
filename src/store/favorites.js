@@ -1,33 +1,41 @@
 import { ref, computed, reactive } from "vue";
 import { defineStore } from "pinia";
+import { useTemplatesStore } from "./templates";
 
-// bodas religiosas, bodas civiles,  cumpleaños, xv años, bautizos, fiesta de gala, evento casual, reunión social, baby showers y graduaciones
+const useTemplate = useTemplatesStore();
 
 export const useFavoritesStore = defineStore("favorites", () => {
-  const favorites = reactive([
-    {
-      id: 1,
-      name: "Elegante Gala",
-      price: "1200",
-      link: "",
-      image:
-        "https://asset1.zankyou.com/images/wervice-card-big/20b/1eda/1050/800/w/837417/-/1594225062.jpg",
-      description:
-        "Una plantilla elegante y sofisticada perfecta para eventos de gala y ocasiones especiales. Con detalles finamente diseñados que resaltan la exclusividad del evento.",
-      events: ["Bodas Civiles", "Fiesta de Gala", "Reunión Social"],
-    },
-    {
-      id: 2,
-      name: "Fiesta en el Jardín",
-      price: "800",
-      link: "",
-      image:
-        "https://asset1.zankyou.com/images/wervice-card-big/20b/1eda/1050/800/w/837417/-/1594225062.jpg",
-      description:
-        "Una plantilla vibrante y colorida ideal para celebraciones al aire libre. Su diseño fresco y alegre encaja perfectamente con eventos en jardines y entornos naturales.",
-      events: ["Cumpleaños", "Baby Showers", "Evento Casual"],
-    },
-  ]);
+  const favorites = reactive([]);
 
-  return { favorites };
+  const addFavorite = (id) => {
+    const template = useTemplate.templates.find(
+      (template) => template.id === id
+    );
+
+    if (template) {
+      if (!favorites.some((fav) => fav.id === template.id)) {
+        favorites.push(template);
+      } else {
+        console.warn(
+          `El template con ID ${id} ya está en la lista de favoritos.`
+        );
+      }
+    } else {
+      console.warn(`El template con ID ${id} no existe.`);
+    }
+  };
+
+  const removeFavorite = (id) => {
+    const index = favorites.findIndex((fav) => fav.id === id);
+
+    if (index !== -1) {
+      favorites.splice(index, 1);
+    } else {
+      console.warn(
+        `No se encontró el template con ID ${id} en la lista de favoritos.`
+      );
+    }
+  };
+
+  return { favorites, addFavorite, removeFavorite };
 });

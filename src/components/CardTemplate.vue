@@ -26,14 +26,17 @@
 </template>
 <script>
 import { useRouter } from "vue-router";
+import { useFavoritesStore } from "../store/favorites.js";
 
 export default {
   components: {},
   setup() {
     const router = useRouter();
+    const useFavorite = useFavoritesStore();
 
     return {
       router,
+      useFavorite,
     };
   },
   props: {
@@ -52,7 +55,7 @@ export default {
     },
 
     unfavorite() {
-      console.log("Quitar");
+      this.useFavorite.removeFavorite(this.template.id);
     },
   },
 };
