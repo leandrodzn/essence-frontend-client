@@ -1,9 +1,14 @@
 <template>
-  <div class="card text-center contact-form">
+  <div class="card contact-form">
     <div class="card-body">
-      <div>
+      <div
+        style="display: flex; flex-direction: column; align-items: flex-start"
+      >
+        <h3 class="title">Contacto</h3>
         <div>Ingrese la siguiente información y nosotros nos comunicaremos</div>
       </div>
+
+      <div></div>
 
       <div class="form mt-2">
         <form @submit.prevent="sendContactMessage">
@@ -50,10 +55,10 @@
 
           <button type="submit" class="btn btn-primary">Enviar</button>
 
-          <div class="form-text mt-4">
+          <!-- <div class="form-text mt-4">
             Su información estará asociada al mensaje para facilitar a la
             empresa poder contactarle.
-          </div>
+          </div> -->
         </form>
       </div>
     </div>
@@ -93,14 +98,19 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.title {
+  font-weight: bold;
+  color: var(--primary);
+}
 .contact-form {
-  background-color: rgba(237, 230, 222, 0.67);
+  background-color: #fff !important;
+  border: none !important;
 
   .form {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    // align-items: center;
+    // justify-content: center;
 
     .input-primary {
       background-color: rgba(150, 61, 130, 0.15) !important;

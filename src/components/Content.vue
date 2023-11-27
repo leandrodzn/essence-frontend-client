@@ -1,7 +1,7 @@
 <template class="body">
   <div class="container text-center">
     <div v-if="!template">No encontrado</div>
-    <div v-else class="row">
+    <div v-else class="row mb-0">
       <div class="col-lg-7 col-md-12 col-sm-12 col-xs-12">
         <img
           src="https://asset1.zankyou.com/images/wervice-card-big/20b/1eda/1050/800/w/837417/-/1594225062.jpg"
@@ -78,13 +78,22 @@
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col-lg-7 col-md-12 col-sm-12 col-xs-12">
+        <ContactTemplateForm />
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import { useTemplatesStore } from "../store/templates.js";
 import { useFavoritesStore } from "../store/favorites.js";
+import ContactTemplateForm from "@/forms/ContactTemplateForm.vue";
 
 export default {
+  components: {
+    ContactTemplateForm,
+  },
   setup() {
     const useTemplate = useTemplatesStore();
     const useFavorite = useFavoritesStore();

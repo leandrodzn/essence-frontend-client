@@ -1,17 +1,20 @@
 <template>
   <div class="container mb-4">
-    <select class="custom-select">
-      <option selected>Buscar por tipo</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
+    <select class="custom-select" v-model="typeSelected">
+      <option selected :value="null">
+        {{ typeSelected ? "Todos" : "Tipo de evento" }}
+      </option>
+
+      <option v-for="event in events" :key="event.value" :value="event.value">
+        {{ event.name }}
+      </option>
     </select>
   </div>
 
-  <div v-if="templates.length === 0" class="">No hay plantillas.</div>
+  <div v-if="templatesList.length === 0" class="">No hay plantillas.</div>
   <div v-else class="container text-center">
     <div class="row">
-      <div v-for="(template, index) in templates" :key="index" class="col">
+      <div v-for="(template, index) in templatesList" :key="index" class="col">
         <CardTemplate :template="template" />
       </div>
     </div>
@@ -21,6 +24,7 @@
 import CardTemplate from "./CardTemplate.vue";
 
 import { useTemplatesStore } from "@/store/templates.js";
+import { useEventsStore } from "@/store/events.js";
 
 export default {
   components: {
@@ -28,8 +32,13 @@ export default {
   },
   setup() {
     const useTemplate = useTemplatesStore();
+    const useEvents = useEventsStore();
+
+    const events = useEvents.events;
+
     return {
       useTemplate,
+      events,
     };
   },
   props: {
@@ -39,8 +48,25 @@ export default {
     templates() {
       return this.useTemplate.templates;
     },
+
+    templatesList() {
+      if (this.typeSelected) {
+        const event = this.events.find(
+          (event) => event.value === this.typeSelected
+        );
+
+        const templates = this.templates.filter((template) => {
+          return template.events.includes(event.name);
+        });
+        return templates;
+      } else {
+        return this.templates;
+      }
+    },
   },
-  data: () => ({}),
+  data: () => ({
+    typeSelected: null,
+  }),
   mounted() {},
   methods: {},
 };
