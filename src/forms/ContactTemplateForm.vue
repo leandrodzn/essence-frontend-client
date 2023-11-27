@@ -53,7 +53,16 @@
             </div>
           </div>
 
-          <button type="submit" class="btn btn-primary">Enviar</button>
+          <button v-if="!busy" type="submit" class="btn btn-primary">
+            Enviar
+          </button>
+          <button v-if="busy" class="btn btn-primary" type="button" disabled>
+            <span
+              class="spinner-border spinner-border-sm"
+              aria-hidden="true"
+            ></span>
+            <span class="px-2" role="status">Enviando...</span>
+          </button>
 
           <!-- <div class="form-text mt-4">
             Su información estará asociada al mensaje para facilitar a la
@@ -67,15 +76,20 @@
 <script>
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
+import { useToast } from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
 
 export default {
   setup() {
-    return { v$: useVuelidate() };
+    const toast = useToast();
+
+    return { v$: useVuelidate(), toast };
   },
   data() {
     return {
       issue: "",
       message: "",
+      busy: false,
     };
   },
   validations() {
@@ -89,9 +103,30 @@ export default {
       const isFormCorrect = await this.v$.$validate();
 
       if (isFormCorrect) {
-        console.log("Valido");
-      } else {
-        console.log("Invalido");
+        try {
+          this.busy = true;
+
+          if (isFormCorrect) {
+            this.toast.open({
+              message: "Mensaje enviado",
+              type: "success",
+              position: "top-right",
+              dismissible: true,
+            });
+          }
+        } catch (error) {
+          this.toast.open({
+            message: "Error al enviar mensaje",
+            type: "error",
+            position: "top-right",
+            dismissible: true,
+          });
+        } finally {
+          // this.busy = false;
+          setTimeout(() => {
+            this.busy = false;
+          }, 500);
+        }
       }
     },
   },
