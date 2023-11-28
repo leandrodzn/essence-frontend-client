@@ -1,8 +1,12 @@
 <template>
-  <div class="card" style="width: 25rem">
+  <div
+    class="card cursor-pointer"
+    style="width: 25rem"
+    @click="redirectTemplate"
+  >
     <img :src="template.image" class="card-img-top" alt="..." />
     <div class="card-body text-center">
-      <h3 class="card-title cursor-pointer" @click="redirectTemplate">
+      <h3 class="card-title cursor-pointer">
         {{ template.name }}
       </h3>
       <vue-feather

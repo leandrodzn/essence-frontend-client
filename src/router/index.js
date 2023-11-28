@@ -35,11 +35,11 @@ const router = createRouter({
       component: () => import("../views/TemplatesHistoryView.vue"),
       beforeEnter: requireLogged,
     },
-    {
-      path: "/content",
-      name: "content",
-      component: () => import("../views/ContentView.vue"),
-    },
+    // {
+    //   path: "/content",
+    //   name: "content",
+    //   component: () => import("../views/ContentView.vue"),
+    // },
     {
       path: "/templates",
       name: "Templates",

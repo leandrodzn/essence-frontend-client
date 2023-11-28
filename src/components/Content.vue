@@ -88,7 +88,11 @@
 <script>
 import { useTemplatesStore } from "../store/templates.js";
 import { useFavoritesStore } from "../store/favorites.js";
+import { useLoginStore } from "../store/login.js";
 import ContactTemplateForm from "@/forms/ContactTemplateForm.vue";
+import { useToast } from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
+import { useRouter } from "vue-router";
 
 export default {
   components: {
@@ -97,10 +101,16 @@ export default {
   setup() {
     const useTemplate = useTemplatesStore();
     const useFavorite = useFavoritesStore();
+    const useLogin = useLoginStore();
+    const toast = useToast();
+    const router = useRouter();
 
     return {
       useTemplate,
       useFavorite,
+      useLogin,
+      toast,
+      router,
     };
   },
   props: {
@@ -125,6 +135,10 @@ export default {
       );
       return template ? true : false;
     },
+
+    isLogged() {
+      return this.useLoginStore.isLogged;
+    },
   },
 
   methods: {
@@ -137,11 +151,25 @@ export default {
     },
 
     addTemplateToFavorite() {
-      this.useFavorite.addFavorite(this.templateId);
+      if (this.isLogged) {
+        this.useFavorite.addFavorite(this.templateId);
+      } else {
+        this.toast.open({
+          message: "Inicie sesión para agregar a favoritos",
+          type: "info",
+          position: "top-right",
+          dismissible: true,
+          onClick: this.redirectLogin,
+        });
+      }
     },
 
     removeTemplateFromFavorites() {
       this.useFavorite.removeFavorite(this.templateId);
+    },
+
+    redirectLogin() {
+      this.router.push("/login");
     },
   },
   watch: {
