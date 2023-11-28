@@ -5,7 +5,7 @@ import { useRoute } from "vue-router";
 export const useLoginStore = defineStore("login", () => {
   const route = useRoute();
 
-  const isLogged = ref(true);
+  const isLogged = ref(false);
 
   const inLogin = computed(() => route.path === "/login");
 

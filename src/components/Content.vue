@@ -137,7 +137,7 @@ export default {
     },
 
     isLogged() {
-      return this.useLoginStore.isLogged;
+      return this.useLogin.isLogged;
     },
   },
 

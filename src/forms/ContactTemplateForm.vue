@@ -78,12 +78,16 @@ import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
+import { useLoginStore } from "../store/login.js";
+import { useRouter } from "vue-router";
 
 export default {
   setup() {
     const toast = useToast();
+    const useLogin = useLoginStore();
+    const router = useRouter();
 
-    return { v$: useVuelidate(), toast };
+    return { v$: useVuelidate(), toast, useLogin, router };
   },
   data() {
     return {
@@ -98,8 +102,24 @@ export default {
       message: { required },
     };
   },
+  computed: {
+    isLogged() {
+      return this.useLogin.isLogged;
+    },
+  },
   methods: {
     async sendContactMessage() {
+      if (!this.isLogged) {
+        this.toast.open({
+          message: "Inicie sesión para contactar por una plantilla",
+          type: "info",
+          position: "top-right",
+          dismissible: true,
+          onClick: this.redirectLogin,
+        });
+        return;
+      }
+
       const isFormCorrect = await this.v$.$validate();
 
       if (isFormCorrect) {
@@ -128,6 +148,10 @@ export default {
           }, 500);
         }
       }
+    },
+
+    redirectLogin() {
+      this.router.push("/login");
     },
   },
 };
