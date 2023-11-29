@@ -48,7 +48,7 @@ export default {
   }),
   computed: {
     favorites() {
-      return this.useFavorite.favorites;
+      return this.useFavorite.favoritesList;
     },
 
     favoritesList() {

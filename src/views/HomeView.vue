@@ -1,4 +1,19 @@
-<script setup></script>
+<script>
+import { useLoginStore } from "../store/login";
+export default {
+  setup() {
+    const useLogin = useLoginStore();
+
+    return {
+      useLogin,
+    };
+  },
+  mounted() {
+    // console.log(this.useLogin.userLogged);
+    // console.log(this.useLogin.isLogged);
+  },
+};
+</script>
 
 <template>
   <div class="home">

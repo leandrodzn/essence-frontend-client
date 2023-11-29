@@ -130,7 +130,7 @@ export default {
 
   computed: {
     isFavorite() {
-      const template = this.useFavorite.favorites.find(
+      const template = this.useFavorite.favoritesList.find(
         (fav) => fav.id === this.templateId
       );
       return template ? true : false;

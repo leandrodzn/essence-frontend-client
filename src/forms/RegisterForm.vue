@@ -2,7 +2,7 @@
   <div class="form text-center mt-2">
     <h2 class="title">Registro</h2>
     <div class="mb-3">Ingrese los datos requeridos</div>
-    <form class="mb-4" @submit.prevent="login">
+    <form class="mb-4" @submit.prevent="register">
       <div
         class="form-floating mb-3"
         :class="{ error: v$.name.$errors.length }"
@@ -104,13 +104,15 @@
 import { useVuelidate } from "@vuelidate/core";
 import { email, minLength, required } from "@vuelidate/validators";
 import { RouterLink } from "vue-router";
+import { useUsersStore } from "../store/users";
 
 export default {
   components: {
     RouterLink,
   },
   setup() {
-    return { v$: useVuelidate() };
+    const useUser = useUsersStore();
+    return { v$: useVuelidate(), useUser };
   },
   data() {
     return {
@@ -140,7 +142,8 @@ export default {
   },
   methods: {
     validatorPhoneNumber(value) {
-      const regex = /^(\+\d{1,4})?\s(\d{10})$/;
+      const regex = /^(\+\d{1,4}\s)?(\d{10})$/;
+
       return regex.test(value);
     },
 
@@ -150,13 +153,18 @@ export default {
       return regex.test(value);
     },
 
-    async login() {
+    async register() {
       const isFormCorrect = await this.v$.$validate();
 
       if (isFormCorrect) {
-        console.log("Valido");
-      } else {
-        console.log("Invalido");
+        const data = {
+          name: this.name,
+          surname: this.surname,
+          email: this.email.trim().toLowerCase(),
+          phone: this.phone,
+          password: this.password,
+        };
+        this.useUser.addUser(data);
       }
     },
   },

@@ -76,12 +76,17 @@ export default {
       password: { required },
     };
   },
+
   methods: {
     async login() {
       const isFormCorrect = await this.v$.$validate();
 
       if (isFormCorrect) {
-        this.useLogin.setIsLogged(true);
+        const data = {
+          email: this.email,
+          password: this.password,
+        };
+        this.useLogin.loginUser(data);
       }
     },
   },

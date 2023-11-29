@@ -1,12 +1,13 @@
 <template>
-  <div
-    class="card cursor-pointer"
-    style="width: 25rem"
-    @click="redirectTemplate"
-  >
-    <img :src="template.image" class="card-img-top" alt="..." />
+  <div class="card cursor-pointer" style="width: 25rem">
+    <img
+      @click="redirectTemplate"
+      :src="template.image"
+      class="card-img-top"
+      alt="..."
+    />
     <div class="card-body text-center">
-      <h3 class="card-title cursor-pointer">
+      <h3 class="card-title cursor-pointer" @click="redirectTemplate">
         {{ template.name }}
       </h3>
       <vue-feather
@@ -15,7 +16,9 @@
         stroke="rgb(150, 61, 130)"
         fill="rgb(150, 61, 130)"
       ></vue-feather>
-      <h3 class="card-text">${{ template.price }} MXN</h3>
+      <h3 class="card-text" @click="redirectTemplate">
+        ${{ template.price }} MXN
+      </h3>
       <vue-feather
         type="heart"
         size="36px"
