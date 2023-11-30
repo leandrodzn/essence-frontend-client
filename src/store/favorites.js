@@ -52,7 +52,7 @@ export const useFavoritesStore = defineStore("favorites", () => {
     if (template) {
       if (
         !favorites.some(
-          (fav) => fav.id === template.id && template.userId === user.id
+          (fav) => fav.id === template.id && fav.userId === user.id
         )
       ) {
         const favorite = {

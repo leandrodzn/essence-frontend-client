@@ -9,8 +9,7 @@ export default {
     };
   },
   mounted() {
-    // console.log(this.useLogin.userLogged);
-    // console.log(this.useLogin.isLogged);
+    window.scrollTo(0, 0);
   },
 };
 </script>

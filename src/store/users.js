@@ -4,7 +4,7 @@ import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import { useRouter } from "vue-router";
 
-let id = 2;
+let id = 3;
 
 export const useUsersStore = defineStore("users", () => {
   const toast = useToast();
@@ -17,7 +17,15 @@ export const useUsersStore = defineStore("users", () => {
       surname: "Dzib",
       phone: "9861135058",
       email: "leandro@mail.com",
-      password: "leandro1.",
+      password: "Leandro1.",
+    },
+    {
+      id: 2,
+      name: "Belen",
+      surname: "Couoh",
+      phone: "9861184453",
+      email: "belen@mail.com",
+      password: "Belen27.",
     },
   ]);
 

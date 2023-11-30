@@ -80,14 +80,28 @@ import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import { useLoginStore } from "../store/login.js";
 import { useRouter } from "vue-router";
+import { useHistoryStore } from "../store/history.js";
 
 export default {
   setup() {
     const toast = useToast();
     const useLogin = useLoginStore();
     const router = useRouter();
+    const useHistory = useHistoryStore();
 
-    return { v$: useVuelidate(), toast, useLogin, router };
+    return {
+      v$: useVuelidate(),
+      toast,
+      useLogin,
+      router,
+      useHistory,
+    };
+  },
+  props: {
+    templateId: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {
@@ -133,6 +147,8 @@ export default {
               position: "top-right",
               dismissible: true,
             });
+
+            this.useHistory.addHistory(this.templateId);
           }
         } catch (error) {
           this.toast.open({
