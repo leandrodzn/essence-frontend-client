@@ -12,9 +12,9 @@
   </div>
 
   <div v-if="favoritesList.length === 0" class="">No hay plantillas.</div>
-  <div v-else class="container text-center">
+  <div v-else class="container-xl text-left">
     <div class="row">
-      <div v-for="(template, index) in favoritesList" :key="index" class="col">
+      <div v-for="(template, index) in favoritesList" :key="index" class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
         <CardTemplate :template="template" favorite />
       </div>
     </div>
