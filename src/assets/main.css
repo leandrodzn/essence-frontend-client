@@ -11,17 +11,11 @@ a,
 .green {
   text-decoration: none;
   color: var(--primary);
-  transition: 0.4s;
+  transition: 0.1s;
 }
 
 .cursor-pointer {
   cursor: pointer;
-}
-
-@media (hover: hover) {
-  a:hover {
-    border-bottom: 1px solid var(--primary);
-  }
 }
 
 @media (min-width: 1024px) {

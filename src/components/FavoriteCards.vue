@@ -1,17 +1,20 @@
 <template>
   <div class="container mb-4">
-    <select class="custom-select">
-      <option selected>Buscar por tipo</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
+    <select class="custom-select" v-model="typeSelected">
+      <option selected :value="null">
+        {{ typeSelected ? "Todos" : "Tipo de evento" }}
+      </option>
+
+      <option v-for="event in events" :key="event.value" :value="event.value">
+        {{ event.name }}
+      </option>
     </select>
   </div>
 
-  <div v-if="plantillas.length === 0" class="">No hay plantillas.</div>
-  <div v-else class="container text-center">
+  <div v-if="favoritesList.length === 0" class="">No hay plantillas.</div>
+  <div v-else class="container-xl text-left">
     <div class="row">
-      <div v-for="(template, index) in plantillas" :key="index" class="col">
+      <div v-for="(template, index) in favoritesList" :key="index" class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
         <CardTemplate :template="template" favorite />
       </div>
     </div>
@@ -19,106 +22,52 @@
 </template>
 <script>
 import CardTemplate from "./CardTemplate.vue";
+import { useFavoritesStore } from "@/store/favorites.js";
+import { useEventsStore } from "@/store/events.js";
+
 export default {
   components: {
     CardTemplate,
+  },
+  setup() {
+    const useFavorite = useFavoritesStore();
+    const useEvents = useEventsStore();
+
+    const events = useEvents.events;
+
+    return {
+      useFavorite,
+      events,
+    };
   },
   props: {
     favorite: Boolean,
   },
   data: () => ({
-    plantillas: [],
+    typeSelected: null,
   }),
-  mounted() {
-    this.getPlantillas();
-  },
-  methods: {
-    getPlantillas() {
-      let p = [
-        {
-          id: 1,
-          title: "Plantilla 1",
-          price: "1600",
-          link: "Ver plantilla",
-          ejemplo:
-            "https://cdn.freebiesupply.com/logos/large/2x/vue-9-logo-png-transparent.png",
-        },
-        {
-          id: 2,
-          title: "Plantilla 2",
-          price: "1600",
-          link: "Ver plantilla",
-          ejemplo:
-            "https://cdn.freebiesupply.com/logos/large/2x/vue-9-logo-png-transparent.png",
-        },
-        {
-          id: 3,
-          title: "Plantilla 3",
-          price: "1600",
-          link: "Ver plantilla",
-          ejemplo:
-            "https://cdn.freebiesupply.com/logos/large/2x/vue-9-logo-png-transparent.png",
-        },
-        {
-          id: 4,
-          title: "Plantilla 4",
-          price: "1600",
-          link: "Ver plantilla",
-          ejemplo:
-            "https://cdn.freebiesupply.com/logos/large/2x/vue-9-logo-png-transparent.png",
-        },
-        {
-          id: 5,
-          title: "Plantilla 5",
-          price: "1600",
-          link: "Ver plantilla",
-          ejemplo:
-            "https://cdn.freebiesupply.com/logos/large/2x/vue-9-logo-png-transparent.png",
-        },
-        {
-          id: 6,
-          title: "Plantilla 1",
-          price: "1600",
-          link: "Ver plantilla",
-          ejemplo:
-            "https://cdn.freebiesupply.com/logos/large/2x/vue-9-logo-png-transparent.png",
-        },
-        {
-          id: 7,
-          title: "Plantilla 2",
-          price: "1600",
-          link: "Ver plantilla",
-          ejemplo:
-            "https://cdn.freebiesupply.com/logos/large/2x/vue-9-logo-png-transparent.png",
-        },
-        {
-          id: 8,
-          title: "Plantilla 3",
-          price: "1600",
-          link: "Ver plantilla",
-          ejemplo:
-            "https://cdn.freebiesupply.com/logos/large/2x/vue-9-logo-png-transparent.png",
-        },
-        {
-          id: 9,
-          title: "Plantilla 4",
-          price: "1600",
-          link: "Ver plantilla",
-          ejemplo:
-            "https://cdn.freebiesupply.com/logos/large/2x/vue-9-logo-png-transparent.png",
-        },
-        {
-          id: 10,
-          title: "Plantilla 5",
-          price: "1600",
-          link: "Ver plantilla",
-          ejemplo:
-            "https://cdn.freebiesupply.com/logos/large/2x/vue-9-logo-png-transparent.png",
-        },
-      ];
-      this.plantillas = p;
+  computed: {
+    favorites() {
+      return this.useFavorite.favoritesList;
+    },
+
+    favoritesList() {
+      if (this.typeSelected) {
+        const event = this.events.find(
+          (event) => event.value === this.typeSelected
+        );
+
+        const favorites = this.favorites.filter((favorite) => {
+          return favorite.events.includes(event.name);
+        });
+        return favorites;
+      } else {
+        return this.favorites;
+      }
     },
   },
+  mounted() {},
+  methods: {},
 };
 </script>
 <style lang="scss" scoped>

@@ -1,9 +1,14 @@
 <template>
-  <div class="card text-center contact-form">
+  <div class="card contact-form">
     <div class="card-body">
-      <div>
+      <div
+        style="display: flex; flex-direction: column; align-items: flex-start"
+      >
+        <h3 class="title">Contacto</h3>
         <div>Ingrese la siguiente información y nosotros nos comunicaremos</div>
       </div>
+
+      <div></div>
 
       <div class="form mt-2">
         <form @submit.prevent="sendContactMessage">
@@ -59,10 +64,10 @@
             <span class="px-2" role="status">Enviando...</span>
           </button>
 
-          <div class="form-text mt-4">
+          <!-- <div class="form-text mt-4">
             Su información estará asociada al mensaje para facilitar a la
             empresa poder contactarle.
-          </div>
+          </div> -->
         </form>
       </div>
     </div>
@@ -73,12 +78,30 @@ import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
+import { useLoginStore } from "../store/login.js";
+import { useRouter } from "vue-router";
+import { useHistoryStore } from "../store/history.js";
 
 export default {
   setup() {
     const toast = useToast();
+    const useLogin = useLoginStore();
+    const router = useRouter();
+    const useHistory = useHistoryStore();
 
-    return { v$: useVuelidate(), toast };
+    return {
+      v$: useVuelidate(),
+      toast,
+      useLogin,
+      router,
+      useHistory,
+    };
+  },
+  props: {
+    templateId: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {
@@ -93,8 +116,24 @@ export default {
       message: { required },
     };
   },
+  computed: {
+    isLogged() {
+      return this.useLogin.isLogged;
+    },
+  },
   methods: {
     async sendContactMessage() {
+      if (!this.isLogged) {
+        this.toast.open({
+          message: "Inicie sesión para contactar por una plantilla",
+          type: "info",
+          position: "top-right",
+          dismissible: true,
+          onClick: this.redirectLogin,
+        });
+        return;
+      }
+
       const isFormCorrect = await this.v$.$validate();
 
       if (isFormCorrect) {
@@ -108,6 +147,8 @@ export default {
               position: "top-right",
               dismissible: true,
             });
+
+            this.useHistory.addHistory(this.templateId);
           }
         } catch (error) {
           this.toast.open({
@@ -124,18 +165,27 @@ export default {
         }
       }
     },
+
+    redirectLogin() {
+      this.router.push("/login");
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
+.title {
+  font-weight: bold;
+  color: var(--primary);
+}
 .contact-form {
-  background-color: rgba(237, 230, 222, 0.67);
+  background-color: #fff !important;
+  border: none !important;
 
   .form {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    // align-items: center;
+    // justify-content: center;
 
     .input-primary {
       background-color: rgba(150, 61, 130, 0.15) !important;

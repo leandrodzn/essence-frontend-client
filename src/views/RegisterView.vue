@@ -1,17 +1,17 @@
 <template>
-  <div class="bg-login mb-2">
+  <div class="bg-register mb-2">
     <div class="capa-transparente"></div>
 
     <div class="contenido container">
-      <LoginForm />
+      <RegisterForm class="mt-4 mb-4" />
     </div>
   </div>
 </template>
 <script>
-import LoginForm from "../forms/LoginForm.vue";
+import RegisterForm from "../forms/RegisterForm.vue";
 export default {
   components: {
-    LoginForm,
+    RegisterForm,
   },
   mounted() {
     window.scrollTo(0, 0);
@@ -22,9 +22,8 @@ export default {
 .subtitle {
   font-weight: lighter;
 }
-.bg-login {
-  // border: 1px solid red;
-  background-image: url("../../public/login-bg-image.png");
+.bg-register {
+  background-image: url("../../public/register-bg-image.png");
   background-size: cover;
   background-position: center;
   position: relative; /* Añadido para permitir que la capa se posicione correctamente */

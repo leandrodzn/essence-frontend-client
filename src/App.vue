@@ -1,22 +1,27 @@
 <template>
-  <header :class="{ inLogin: useLogin.inLogin }">
+  <header :class="{ inLogin: inLogin || inRegister }">
     <img
       alt="BeluEssence Creatives Logo"
       class="logo cursor-pointer"
-      :class="{ inLogin: useLogin.inLogin }"
-      src="@/assets/logo.svg"
+      :class="{ inLogin: inLogin || inRegister }"
+      src="../../public/logo.svg"
       width="244"
       height="152"
       @click="redirectHome"
     />
 
-    <nav v-if="!useLogin.inLogin">
+    <nav v-if="!inLogin && !inRegister">
       <RouterLink to="/">Inicio</RouterLink>
       <RouterLink to="/templates">Plantillas</RouterLink>
       <RouterLink to="/contact">Contacto</RouterLink>
-      <RouterLink to="/favorites">Favoritos</RouterLink>
-      <RouterLink to="/history">Historial</RouterLink>
-      <button @click="redirectLogin" type="button" class="btn btn-primary mx-2">
+      <RouterLink to="/favorites" v-if="isLogged">Favoritos</RouterLink>
+      <RouterLink to="/history" v-if="isLogged">Historial</RouterLink>
+      <button
+        @click="redirectLogin"
+        type="button"
+        class="btn btn-primary mx-2"
+        v-if="!isLogged"
+      >
         Iniciar sesión
       </button>
     </nav>
@@ -47,6 +52,19 @@ export default {
       useLogin,
     };
   },
+  computed: {
+    inLogin() {
+      return this.useLogin.inLogin;
+    },
+
+    inRegister() {
+      return this.useLogin.inRegister;
+    },
+
+    isLogged() {
+      return this.useLogin.isLogged;
+    },
+  },
   methods: {
     redirectHome() {
       this.router.push("/");
@@ -76,9 +94,10 @@ header {
 
 nav {
   width: 100%;
-  font-size: 12px;
+  font-size: 1rem;
   text-align: center;
   margin-top: 2rem;
+  margin-bottom: 1em;
 }
 
 nav a.router-link-exact-active {
@@ -93,6 +112,12 @@ nav a {
   display: inline-block;
   padding: 0 1rem;
   /* border-left: 1px solid var(--color-border); */
+}
+
+@media (hover: hover) {
+  a:hover {
+    border-bottom: 1px solid var(--primary);
+  }
 }
 
 @media (min-width: 1024px) {
@@ -112,7 +137,7 @@ nav a {
     margin: 0 2rem 0 0;
 
     &.inLogin {
-      margin: 0 0 4rem 0;
+      margin: 0 0 2rem 0;
     }
   }
 
