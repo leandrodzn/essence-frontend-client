@@ -1,5 +1,5 @@
 <template>
-  <div class="card cursor-pointer" style="width: 25rem">
+  <div class="card cursor-pointer" style="width: 100%">
     <img
       @click="redirectTemplate"
       :src="template.image"
@@ -7,9 +7,9 @@
       alt="..."
     />
     <div class="card-body text-center">
-      <h3 class="card-title cursor-pointer" @click="redirectTemplate">
+      <h4 class="card-title cursor-pointer" @click="redirectTemplate">
         {{ template.name }}
-      </h3>
+      </h4>
       <vue-feather
         type="minus"
         size="30px"
