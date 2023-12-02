@@ -27,7 +27,7 @@ export const useLoginStore = defineStore("login", () => {
         toast.open({
           message: `Ha iniciado sesión como ${user.name} ${user.surname}`,
           type: "info",
-          position: "top-right",
+          position: "top",
           dismissible: true,
         });
 

@@ -19,11 +19,11 @@ const router = createRouter({
       name: "Home",
       component: () => import("../views/HomeView.vue"),
     },
-    {
-      path: "/about",
-      name: "About",
-      component: () => import("../views/AboutView.vue"),
-    },
+    // {
+    //   path: "/about",
+    //   name: "About",
+    //   component: () => import("../views/AboutView.vue"),
+    // },
     {
       path: "/contact",
       name: "Contact",
