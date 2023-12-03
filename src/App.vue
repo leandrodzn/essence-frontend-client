@@ -24,6 +24,7 @@
       >
         Iniciar sesión
       </button>
+      <UserDropdown v-if="isLogged" class="mx-2" />
     </nav>
   </header>
 
@@ -34,13 +35,15 @@
 
 <script>
 import { RouterLink, RouterView } from "vue-router";
-import Footer from "./components/Footer.vue";
 import { useRouter } from "vue-router";
 import { useLoginStore } from "@/store/login.js";
+import UserDropdown from "./components/UserDropdown.vue";
+import Footer from "./components/Footer.vue";
 
 export default {
   components: {
     Footer,
+    UserDropdown,
   },
   setup() {
     const router = useRouter();
@@ -93,6 +96,8 @@ header {
 }
 
 nav {
+  // display: flex;
+  // justify-content: flex-end;
   width: 100%;
   font-size: 1rem;
   text-align: center;
@@ -151,7 +156,9 @@ nav a {
     text-align: right;
     margin-right: -1rem;
     font-size: 1rem;
-
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
     padding: 1rem 0;
     margin-top: 1rem;
   }

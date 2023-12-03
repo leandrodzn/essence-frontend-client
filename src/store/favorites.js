@@ -24,7 +24,7 @@ export const useFavoritesStore = defineStore("favorites", () => {
       events: ["Bodas Civiles", "Fiesta de Gala", "Reunión Social"],
     },
     {
-      userId: 2,
+      userId: 3,
       id: 1,
       name: "Elegante Gala",
       price: "1200",

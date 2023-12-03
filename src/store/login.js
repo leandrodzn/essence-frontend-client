@@ -56,6 +56,18 @@ export const useLoginStore = defineStore("login", () => {
     }
   };
 
+  const logoutUser = () => {
+    setIsLogged(false);
+    setUserLogged({});
+
+    toast.open({
+      message: `Sesión finalizada`,
+      type: "info",
+      position: "top-right",
+      dismissible: true,
+    });
+  };
+
   const setIsLogged = (value) => {
     isLogged.value = value;
   };
@@ -68,5 +80,5 @@ export const useLoginStore = defineStore("login", () => {
     router.push("/register");
   };
 
-  return { isLogged, loginUser, inLogin, inRegister, userLogged };
+  return { isLogged, loginUser, inLogin, inRegister, userLogged, logoutUser };
 });
