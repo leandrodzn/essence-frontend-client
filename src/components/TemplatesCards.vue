@@ -13,8 +13,12 @@
 
   <div v-if="templatesList.length === 0" class="">No hay plantillas.</div>
   <div v-else class="container-xl text-left">
-    <div class="row ">
-      <div v-for="(template, index) in templatesList" :key="index" class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+    <div class="row">
+      <div
+        v-for="(template, index) in templatesList"
+        :key="index"
+        class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4"
+      >
         <CardTemplate :template="template" />
       </div>
     </div>
