@@ -13,11 +13,11 @@ export default {
     <div class="text-center">
       <h1 class="title">Historial</h1>
       <h4 class="subtitle">Todas las plantillas que has seleccionado</h4>
-      <History></History>
+      <History class="mt-4"></History>
     </div>
   </div>
 </template>
-  
+
 <style>
 .title {
   font-weight: bold;
@@ -35,4 +35,3 @@ export default {
   }
 }
 </style>
-  
