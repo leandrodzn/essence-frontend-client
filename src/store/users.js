@@ -8,18 +8,9 @@ export const useUsersStore = defineStore("users", () => {
   const toast = useToast();
   const router = useRouter();
 
-  let users = reactive([
-    {
-      id: 1,
-      name: "Leandro",
-      surname: "Dzib",
-      phone: "9861135058",
-      email: "leandro@mail.com",
-      password: "Leandro1.",
-    },
-  ]);
+  let users = reactive([]);
 
-  let id = 2;
+  let id = 1;
 
   const addUser = (data) => {
     const user = users.find((user) => user.email === data.email);

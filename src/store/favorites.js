@@ -12,32 +12,7 @@ export const useFavoritesStore = defineStore("favorites", () => {
   const toast = useToast();
   const router = useRouter();
 
-  let favorites = reactive([
-    {
-      userId: 1,
-      id: 1,
-      name: "Elegante Gala",
-      price: "1200",
-      link: "",
-      image:
-        "https://asset1.zankyou.com/images/wervice-card-big/20b/1eda/1050/800/w/837417/-/1594225062.jpg",
-      description:
-        "Una plantilla elegante y sofisticada perfecta para eventos de gala y ocasiones especiales. Con detalles finamente diseñados que resaltan la exclusividad del evento.",
-      events: ["Bodas Civiles", "Fiesta de Gala", "Reunión Social"],
-    },
-    {
-      userId: 3,
-      id: 1,
-      name: "Elegante Gala",
-      price: "1200",
-      link: "",
-      image:
-        "https://asset1.zankyou.com/images/wervice-card-big/20b/1eda/1050/800/w/837417/-/1594225062.jpg",
-      description:
-        "Una plantilla elegante y sofisticada perfecta para eventos de gala y ocasiones especiales. Con detalles finamente diseñados que resaltan la exclusividad del evento.",
-      events: ["Bodas Civiles", "Fiesta de Gala", "Reunión Social"],
-    },
-  ]);
+  let favorites = reactive([]);
 
   const favoritesList = computed(() => {
     const user = useLogin.userLogged;
