@@ -1,4 +1,4 @@
-import { ref, computed, reactive } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import { defineStore } from "pinia";
 import { useRoute, useRouter } from "vue-router";
 import { useUsersStore } from "./users";
@@ -60,6 +60,8 @@ export const useLoginStore = defineStore("login", () => {
     setIsLogged(false);
     setUserLogged({});
 
+    router.push("/login");
+
     toast.open({
       message: `Sesión finalizada`,
       type: "info",
@@ -79,6 +81,34 @@ export const useLoginStore = defineStore("login", () => {
   const redirectRegister = () => {
     router.push("/register");
   };
+
+  // Local Storage
+  // Get local storage data
+  const initializeStore = () => {
+    const storedData = localStorage.getItem("loginStore");
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      isLogged.value = parsedData.isLogged;
+      userLogged.value = parsedData.userLogged;
+    }
+  };
+
+  // Save local storage data
+  const storeDataInLocalStorage = () => {
+    const dataToStore = {
+      isLogged: isLogged.value,
+      userLogged: userLogged.value,
+    };
+    localStorage.setItem("loginStore", JSON.stringify(dataToStore));
+  };
+
+  onMounted(() => {
+    initializeStore();
+  });
+
+  watch([isLogged, userLogged], () => {
+    storeDataInLocalStorage();
+  });
 
   return { isLogged, loginUser, inLogin, inRegister, userLogged, logoutUser };
 });

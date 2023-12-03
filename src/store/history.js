@@ -1,4 +1,4 @@
-import { ref, computed, reactive } from "vue";
+import { computed, reactive, onMounted, watch } from "vue";
 import { defineStore } from "pinia";
 import { useTemplatesStore } from "./templates";
 import { useLoginStore } from "./login.js";
@@ -12,7 +12,7 @@ export const useHistoryStore = defineStore("history", () => {
   const toast = useToast();
   const router = useRouter();
 
-  const history = reactive([]);
+  let history = reactive([]);
 
   const historyList = computed(() => {
     const user = useLogin.userLogged;
@@ -63,7 +63,7 @@ export const useHistoryStore = defineStore("history", () => {
         type: "success",
         position: "top-right",
         dismissible: true,
-        onClick: redirectHistory(),
+        onClick: redirectHistory,
       });
     } else {
       toast.open({
@@ -74,6 +74,29 @@ export const useHistoryStore = defineStore("history", () => {
       });
     }
   };
+
+  // Local Storage
+  // Get local storage data
+  const initializeStore = () => {
+    const storedData = localStorage.getItem("historyStore");
+    if (storedData) {
+      history.length = 0;
+      history.push(...JSON.parse(storedData));
+    }
+  };
+
+  // Save local storage data
+  const storeDataInLocalStorage = () => {
+    localStorage.setItem("historyStore", JSON.stringify(history));
+  };
+
+  onMounted(() => {
+    initializeStore();
+  });
+
+  watch([history], () => {
+    storeDataInLocalStorage();
+  });
 
   return { historyList, addHistory };
 });
