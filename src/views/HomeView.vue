@@ -1,10 +1,12 @@
 <script>
 import { useLoginStore } from "../store/login";
-import Carousel from "../components/Carousel.vue";
+import CarouselPlantillas from "../components/CarouselPlantillas.vue";
+import GridHome from "../components/GridHome.vue";
 
 export default {
   components: {
-    Carousel,
+    CarouselPlantillas,
+    GridHome,
   },
   setup() {
     const useLogin = useLoginStore();
@@ -39,14 +41,29 @@ export default {
         </button>
       </div>
     </div>
-    <h4>
-      Olvida lo convencional y date la oportunidad de tener una invitación única
-      para tu evento
-    </h4>
-    <Carousel />
+    <div class="subtitle">
+      <h4>
+        Olvida lo convencional y date la oportunidad de tener una invitación
+        única para tu evento
+      </h4>
+    </div>
+    <div class="slide">
+      <CarouselPlantillas />
+    </div>
+    <div class="subtitle">
+      <h4>¿Por qué escoger una invitación con formato web?</h4>
+    </div>
+    <div class="grid">
+      <GridHome />
+    </div>
   </div>
 </template>
 <style>
+.slide {
+  padding: 0 50px;
+  margin-top: 60px;
+}
+
 .banner {
   position: relative;
   display: flex;
@@ -54,6 +71,11 @@ export default {
   width: 100%;
   height: 600px;
   background: url("/banner1.png") center/cover; /* Reemplaza 'nombre-de-tu-imagen.jpg' con el nombre de tu imagen */
+}
+
+.grid {
+  margin-top: 60px;
+  margin-bottom: 90px;
 }
 
 .container-banner {
@@ -76,11 +98,15 @@ export default {
 }
 
 .home h4 {
-  margin-top: 40px;
+  margin-top: 60px;
   text-align: center;
   font-weight: lighter;
 }
 
+.subtitle {
+  width: 700px;
+  margin: 0 auto;
+}
 @media (min-width: 1024px) {
 }
 </style>
