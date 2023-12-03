@@ -1,4 +1,4 @@
-import { ref, computed, reactive } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import { defineStore } from "pinia";
 import { useRoute, useRouter } from "vue-router";
 import { useUsersStore } from "./users";
@@ -27,7 +27,7 @@ export const useLoginStore = defineStore("login", () => {
         toast.open({
           message: `Ha iniciado sesión como ${user.name} ${user.surname}`,
           type: "info",
-          position: "top-right",
+          position: "top",
           dismissible: true,
         });
 
@@ -56,6 +56,20 @@ export const useLoginStore = defineStore("login", () => {
     }
   };
 
+  const logoutUser = () => {
+    setIsLogged(false);
+    setUserLogged({});
+
+    router.push("/login");
+
+    toast.open({
+      message: `Sesión finalizada`,
+      type: "info",
+      position: "top-right",
+      dismissible: true,
+    });
+  };
+
   const setIsLogged = (value) => {
     isLogged.value = value;
   };
@@ -68,5 +82,33 @@ export const useLoginStore = defineStore("login", () => {
     router.push("/register");
   };
 
-  return { isLogged, loginUser, inLogin, inRegister, userLogged };
+  // Local Storage
+  // Get local storage data
+  const initializeStore = () => {
+    const storedData = localStorage.getItem("loginStore");
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      isLogged.value = parsedData.isLogged;
+      userLogged.value = parsedData.userLogged;
+    }
+  };
+
+  // Save local storage data
+  const storeDataInLocalStorage = () => {
+    const dataToStore = {
+      isLogged: isLogged.value,
+      userLogged: userLogged.value,
+    };
+    localStorage.setItem("loginStore", JSON.stringify(dataToStore));
+  };
+
+  onMounted(() => {
+    initializeStore();
+  });
+
+  watch([isLogged, userLogged], () => {
+    storeDataInLocalStorage();
+  });
+
+  return { isLogged, loginUser, inLogin, inRegister, userLogged, logoutUser };
 });

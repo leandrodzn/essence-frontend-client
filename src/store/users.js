@@ -1,16 +1,14 @@
-import { ref, computed, reactive } from "vue";
+import { reactive, onMounted, watch } from "vue";
 import { defineStore } from "pinia";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import { useRouter } from "vue-router";
 
-let id = 3;
-
 export const useUsersStore = defineStore("users", () => {
   const toast = useToast();
   const router = useRouter();
 
-  const users = reactive([
+  let users = reactive([
     {
       id: 1,
       name: "Leandro",
@@ -19,15 +17,9 @@ export const useUsersStore = defineStore("users", () => {
       email: "leandro@mail.com",
       password: "Leandro1.",
     },
-    {
-      id: 2,
-      name: "Belen",
-      surname: "Couoh",
-      phone: "9861184453",
-      email: "belen@mail.com",
-      password: "Belen27.",
-    },
   ]);
+
+  let id = 2;
 
   const addUser = (data) => {
     const user = users.find((user) => user.email === data.email);
@@ -40,9 +32,12 @@ export const useUsersStore = defineStore("users", () => {
         dismissible: true,
       });
     } else {
+      let userId = id;
+      id++;
+
       users.push({
         ...data,
-        id,
+        id: userId,
       });
 
       toast.open({
@@ -52,13 +47,35 @@ export const useUsersStore = defineStore("users", () => {
         dismissible: true,
       });
 
-      id++;
-
       setTimeout(() => {
         router.push("/login");
       }, 1000);
     }
   };
+
+  //Local Storage
+  const initializeStore = () => {
+    const storedData = localStorage.getItem("usersStore");
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      users.length = 0;
+      users.push(...parsedData.users);
+      id = parsedData.id;
+    }
+  };
+
+  // Save local storage data
+  const storeDataInLocalStorage = () => {
+    localStorage.setItem("usersStore", JSON.stringify({ users, id }));
+  };
+
+  onMounted(() => {
+    initializeStore();
+  });
+
+  watch([users], () => {
+    storeDataInLocalStorage();
+  });
 
   return { users, addUser };
 });

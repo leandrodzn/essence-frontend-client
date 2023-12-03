@@ -1,5 +1,13 @@
 <template class="body">
-  <div v-if="templates.length === 0" class="">No hay plantillas.</div>
+  <div v-if="templates.length === 0" class="emptyList">
+    <span style="font-size: 120%">
+      No has contactado por ninguna plantilla
+    </span>
+    <span> Encuentra la mejor para tu ocasión </span>
+    <span @click="redirectTemplates" class="cursor-pointer redirectText mt-2">
+      Ir a plantillas</span
+    >
+  </div>
   <div v-else class="container text-center">
     <div v-for="(template, index) in templates" :key="index">
       <div class="card mb-3">
@@ -72,6 +80,10 @@ export default {
     redirectTemplate(id) {
       this.router.push(`/template/${id}`);
     },
+
+    redirectTemplates() {
+      this.router.push("/templates");
+    },
   },
 };
 </script>
@@ -92,5 +104,22 @@ export default {
 .card-text {
   font-size: x-large;
   font-weight: normal;
+}
+
+.emptyList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4rem;
+
+  .redirectText {
+    color: var(--primary);
+    font-weight: 600;
+
+    &:hover {
+      font-weight: 700;
+    }
+  }
 }
 </style>

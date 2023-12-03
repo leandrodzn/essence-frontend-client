@@ -11,7 +11,20 @@
     </select>
   </div>
 
-  <div v-if="templatesList.length === 0" class="">No hay plantillas.</div>
+  <div
+    v-if="templatesList.length === 0"
+    style="
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    "
+  >
+    <span style="font-size: 120%"
+      >No se encontraron plantillas coincidentes
+    </span>
+    <span style="font-size: 100%">Prueba con otro criterio de búsqueda</span>
+  </div>
   <div v-else class="container-xl text-left">
     <div class="row">
       <div

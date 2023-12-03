@@ -11,10 +11,21 @@
     </select>
   </div>
 
-  <div v-if="favoritesList.length === 0" class="">No hay plantillas.</div>
+  <div v-if="favoritesList.length === 0" class="emptyList">
+    <span style="font-size: 120%"
+      >No tiene plantillas marcadas como favoritas
+    </span>
+    <span @click="redirectTemplates" class="cursor-pointer redirectText mt-2">
+      Ir a plantillas</span
+    >
+  </div>
   <div v-else class="container-xl text-left">
     <div class="row">
-      <div v-for="(template, index) in favoritesList" :key="index" class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+      <div
+        v-for="(template, index) in favoritesList"
+        :key="index"
+        class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4"
+      >
         <CardTemplate :template="template" favorite />
       </div>
     </div>
@@ -24,6 +35,7 @@
 import CardTemplate from "./CardTemplate.vue";
 import { useFavoritesStore } from "@/store/favorites.js";
 import { useEventsStore } from "@/store/events.js";
+import { useRouter } from "vue-router";
 
 export default {
   components: {
@@ -32,12 +44,14 @@ export default {
   setup() {
     const useFavorite = useFavoritesStore();
     const useEvents = useEventsStore();
+    const router = useRouter();
 
     const events = useEvents.events;
 
     return {
       useFavorite,
       events,
+      router,
     };
   },
   props: {
@@ -67,7 +81,11 @@ export default {
     },
   },
   mounted() {},
-  methods: {},
+  methods: {
+    redirectTemplates() {
+      this.router.push("/templates");
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -113,5 +131,22 @@ export default {
     130
   ); /* Cambia el color de fondo cuando se pasa el mouse sobre las opciones */
   color: white; /* Cambia el color del texto a blanco cuando se pasa el mouse sobre las opciones */
+}
+
+.emptyList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+
+  .redirectText {
+    color: var(--primary);
+    font-weight: 600;
+
+    &:hover {
+      font-weight: 700;
+    }
+  }
 }
 </style>

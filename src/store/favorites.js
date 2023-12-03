@@ -1,16 +1,18 @@
-import { ref, computed, reactive } from "vue";
+import { computed, reactive, onMounted, watch } from "vue";
 import { defineStore } from "pinia";
 import { useTemplatesStore } from "./templates";
 import { useLoginStore } from "./login.js";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
+import { useRouter } from "vue-router";
 
 export const useFavoritesStore = defineStore("favorites", () => {
   const useTemplate = useTemplatesStore();
   const useLogin = useLoginStore();
   const toast = useToast();
+  const router = useRouter();
 
-  const favorites = reactive([
+  let favorites = reactive([
     {
       userId: 1,
       id: 1,
@@ -24,7 +26,7 @@ export const useFavoritesStore = defineStore("favorites", () => {
       events: ["Bodas Civiles", "Fiesta de Gala", "Reunión Social"],
     },
     {
-      userId: 2,
+      userId: 3,
       id: 1,
       name: "Elegante Gala",
       price: "1200",
@@ -59,12 +61,15 @@ export const useFavoritesStore = defineStore("favorites", () => {
           ...template,
           userId: user.id,
         };
+
         favorites.push(favorite);
+
         toast.open({
           message: "Plantilla agregada a favoritos",
           type: "success",
           position: "top-right",
           dismissible: true,
+          onClick: redirectFavorites,
         });
       } else {
         toast.open({
@@ -97,6 +102,7 @@ export const useFavoritesStore = defineStore("favorites", () => {
         type: "success",
         position: "top-right",
         dismissible: true,
+        onClick: redirectFavorites,
       });
     } else {
       toast.open({
@@ -107,6 +113,32 @@ export const useFavoritesStore = defineStore("favorites", () => {
       });
     }
   };
+
+  const redirectFavorites = () => {
+    router.push("/favorites");
+  };
+
+  //Local Storage
+  const initializeStore = () => {
+    const storedData = localStorage.getItem("favoritesStore");
+    if (storedData) {
+      favorites.length = 0;
+      favorites.push(...JSON.parse(storedData));
+    }
+  };
+
+  // Save local storage data
+  const storeDataInLocalStorage = () => {
+    localStorage.setItem("favoritesStore", JSON.stringify(favorites));
+  };
+
+  onMounted(() => {
+    initializeStore();
+  });
+
+  watch([favorites], () => {
+    storeDataInLocalStorage();
+  });
 
   return { favoritesList, addFavorite, removeFavorite };
 });
