@@ -15,8 +15,11 @@
     </button>
     <ul class="dropdown-menu" style="">
       <span class="mx-2 mb-2">
-        Hola {{ useLogin?.userLogged?.name || "" }}
-        {{ useLogin?.userLogged?.surname || "" }}
+        Hola
+        <span style="color: var(--primary)">
+          {{ useLogin?.userLogged?.name || "" }}
+          {{ useLogin?.userLogged?.surname || "" }}
+        </span>
       </span>
       <li>
         <a class="dropdown-item cursor-pointer" @click="logout">

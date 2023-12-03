@@ -30,6 +30,7 @@
             type="button"
             style="width: 200px; margin-top: 20px"
             class="btn btn-primary mx-2"
+            @click="redirectTemplates"
           >
             Ver plantillas
           </button>
@@ -43,6 +44,7 @@
             type="button"
             style="width: 200px; margin-top: 20px"
             class="btn btn-primary mx-2"
+            @click="redirectTemplates"
           >
             Ver plantillas
           </button>
@@ -56,6 +58,7 @@
             type="button"
             style="width: 200px; margin-top: 20px"
             class="btn btn-primary mx-2"
+            @click="redirectTemplates"
           >
             Ver plantillas
           </button>
@@ -83,3 +86,18 @@
     </button>
   </div>
 </template>
+<script>
+import { useRouter } from "vue-router";
+export default {
+  setup() {
+    const router = useRouter();
+
+    return { router };
+  },
+  methods: {
+    redirectTemplates() {
+      this.router.push("/templates");
+    },
+  },
+};
+</script>

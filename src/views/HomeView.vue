@@ -1,4 +1,5 @@
 <script>
+import { useRouter } from "vue-router";
 import { useLoginStore } from "../store/login";
 import CarouselPlantillas from "../components/CarouselPlantillas.vue";
 import GridHome from "../components/GridHome.vue";
@@ -10,12 +11,24 @@ export default {
   },
   setup() {
     const useLogin = useLoginStore();
+    const router = useRouter();
     return {
       useLogin,
+      router,
     };
+  },
+  computed: {
+    isLogged() {
+      return this.useLogin.isLogged;
+    },
   },
   mounted() {
     window.scrollTo(0, 0);
+  },
+  methods: {
+    redirectLogin() {
+      this.router.push("/login");
+    },
   },
 };
 </script>
