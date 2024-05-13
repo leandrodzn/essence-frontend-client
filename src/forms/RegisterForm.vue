@@ -103,8 +103,9 @@
 <script>
 import { useVuelidate } from "@vuelidate/core";
 import { email, minLength, required } from "@vuelidate/validators";
-import { RouterLink } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 import { useUsersStore } from "../store/users";
+import { useToast } from "vue-toast-notification";
 
 export default {
   components: {
@@ -112,7 +113,10 @@ export default {
   },
   setup() {
     const useUser = useUsersStore();
-    return { v$: useVuelidate(), useUser };
+    const toast = useToast();
+    const router = useRouter();
+
+    return { v$: useVuelidate(), useUser, toast, router };
   },
   data() {
     return {
@@ -154,9 +158,11 @@ export default {
     },
 
     async register() {
-      const isFormCorrect = await this.v$.$validate();
+      try {
+        const isFormCorrect = await this.v$.$validate();
 
-      if (isFormCorrect) {
+        if (!isFormCorrect) return;
+
         const data = {
           name: this.name,
           surname: this.surname,
@@ -164,7 +170,35 @@ export default {
           phone: this.phone,
           password: this.password,
         };
-        this.useUser.addUser(data);
+
+        const user = await this.useUser.createCustomer({ data });
+
+        this.toast.open({
+          message: "Registro exitoso",
+          type: "success",
+          position: "top-right",
+          dismissible: true,
+        });
+
+        setTimeout(() => {
+          this.router.push("/login");
+        }, 500);
+      } catch (error) {
+        if (error?.name === "EmailInvalid") {
+          this.toast.open({
+            message: "Ingrese un correo electrónico diferente",
+            type: "warning",
+            position: "top-right",
+            dismissible: true,
+          });
+        } else {
+          this.toast.open({
+            message: "Error al registrar cliente",
+            type: "error",
+            position: "top-right",
+            dismissible: true,
+          });
+        }
       }
     },
   },

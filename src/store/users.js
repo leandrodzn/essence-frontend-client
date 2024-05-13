@@ -3,46 +3,15 @@ import { defineStore } from "pinia";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import { useRouter } from "vue-router";
+import axios from "@axios";
+
+const route = "/client/customers";
 
 export const useUsersStore = defineStore("users", () => {
   const toast = useToast();
   const router = useRouter();
 
   let users = reactive([]);
-
-  let id = 1;
-
-  const addUser = (data) => {
-    const user = users.find((user) => user.email === data.email);
-
-    if (user) {
-      toast.open({
-        message: "Ingrese un correo electrónico diferente",
-        type: "warning",
-        position: "top-right",
-        dismissible: true,
-      });
-    } else {
-      let userId = id;
-      id++;
-
-      users.push({
-        ...data,
-        id: userId,
-      });
-
-      toast.open({
-        message: "Registro exitoso",
-        type: "success",
-        position: "top-right",
-        dismissible: true,
-      });
-
-      setTimeout(() => {
-        router.push("/login");
-      }, 1000);
-    }
-  };
 
   //Local Storage
   const initializeStore = () => {
@@ -68,5 +37,11 @@ export const useUsersStore = defineStore("users", () => {
     storeDataInLocalStorage();
   });
 
-  return { users, addUser };
+  const createCustomer = async ({ data }) => {
+    const response = await axios.post(route, data);
+
+    return response.data;
+  };
+
+  return { users, createCustomer };
 });
