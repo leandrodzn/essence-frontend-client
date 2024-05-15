@@ -1,15 +1,16 @@
 import { ref, computed, onMounted, watch } from "vue";
 import { defineStore } from "pinia";
 import { useRoute, useRouter } from "vue-router";
-import { useUsersStore } from "./users";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
+import axios from "@axios";
+
+const routeBackend = "/client/auth/login";
 
 export const useLoginStore = defineStore("login", () => {
   const route = useRoute();
   const toast = useToast();
   const router = useRouter();
-  const useUsers = useUsersStore();
 
   const isLogged = ref(false);
 
@@ -19,47 +20,10 @@ export const useLoginStore = defineStore("login", () => {
 
   const inRegister = computed(() => route.path === "/register");
 
-  const loginUser = (data) => {
-    const user = useUsers.users.find((user) => user.email === data.email);
-
-    if (user) {
-      if (user.password === data.password) {
-        toast.open({
-          message: `Ha iniciado sesión como ${user.name} ${user.surname}`,
-          type: "info",
-          position: "top",
-          dismissible: true,
-        });
-
-        setIsLogged(true);
-        setUserLogged(user);
-
-        setTimeout(() => {
-          router.push("/");
-        }, 1000);
-      } else {
-        toast.open({
-          message: "Credenciales incorrectas, inténtelo de nuevo",
-          type: "warning",
-          position: "top-right",
-          dismissible: true,
-        });
-      }
-    } else {
-      toast.open({
-        message: "El usuario no existe, regístrese para ingresar",
-        type: "warning",
-        position: "top-right",
-        dismissible: true,
-        onClick: redirectRegister,
-      });
-    }
-  };
-
-  const logoutUser = () => {
+  const logout = () => {
     setIsLogged(false);
-    setUserLogged({});
-
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("userData");
     router.push("/login");
 
     toast.open({
@@ -70,45 +34,49 @@ export const useLoginStore = defineStore("login", () => {
     });
   };
 
+  const login = async ({ data }) => {
+    const response = await axios.post(routeBackend, data);
+
+    const accessToken = response.data.jwt;
+    localStorage.setItem("accessToken", accessToken);
+    const user = response.data.user;
+
+    setIsLogged(true);
+    setUserLogged(user);
+
+    return response.data;
+  };
+
   const setIsLogged = (value) => {
     isLogged.value = value;
   };
 
   const setUserLogged = (value) => {
     userLogged.value = value;
-  };
-
-  const redirectRegister = () => {
-    router.push("/register");
+    localStorage.setItem("userData", JSON.stringify(value));
   };
 
   // Local Storage
   // Get local storage data
   const initializeStore = () => {
-    const storedData = localStorage.getItem("loginStore");
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      isLogged.value = parsedData.isLogged;
-      userLogged.value = parsedData.userLogged;
+    const storedUser = localStorage.getItem("userData");
+    if (storedUser) {
+      const parsedData = JSON.parse(storedUser);
+      isLogged.value = true;
+      userLogged.value = parsedData;
     }
-  };
-
-  // Save local storage data
-  const storeDataInLocalStorage = () => {
-    const dataToStore = {
-      isLogged: isLogged.value,
-      userLogged: userLogged.value,
-    };
-    localStorage.setItem("loginStore", JSON.stringify(dataToStore));
   };
 
   onMounted(() => {
     initializeStore();
   });
 
-  watch([isLogged, userLogged], () => {
-    storeDataInLocalStorage();
-  });
-
-  return { isLogged, loginUser, inLogin, inRegister, userLogged, logoutUser };
+  return {
+    isLogged,
+    inLogin,
+    inRegister,
+    userLogged,
+    logout,
+    login,
+  };
 });

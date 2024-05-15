@@ -1,6 +1,5 @@
 import axios from "axios";
-import { useRouter } from "vue-router";
-const router = useRouter();
+import { useLoginStore } from "@/store/login.js";
 
 const axiosApi = axios.create({
   baseURL: import.meta.env.VITE_APP_API_BACKEND,
@@ -35,10 +34,8 @@ axiosApi.interceptors.response.use(
   },
   (error) => {
     if (error?.response?.status === 401) {
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("userData");
-      router.push("/login");
-      window.location.reload();
+      const useLogin = useLoginStore();
+      useLogin.logout();
     }
 
     return Promise.reject(error);

@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     logout() {
-      this.useLogin.logoutUser();
+      this.useLogin.logout();
     },
   },
 };

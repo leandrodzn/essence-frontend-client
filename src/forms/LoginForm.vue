@@ -51,8 +51,9 @@
 <script>
 import { useVuelidate } from "@vuelidate/core";
 import { email, required } from "@vuelidate/validators";
-import { RouterLink } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 import { useLoginStore } from "@/store/login.js";
+import { useToast } from "vue-toast-notification";
 
 export default {
   components: {
@@ -60,9 +61,11 @@ export default {
   },
   setup() {
     const useLogin = useLoginStore();
+    const toast = useToast();
+    const router = useRouter();
     const v$ = useVuelidate();
 
-    return { v$, useLogin };
+    return { v$, useLogin, toast, router };
   },
   data() {
     return {
@@ -79,14 +82,44 @@ export default {
 
   methods: {
     async login() {
-      const isFormCorrect = await this.v$.$validate();
+      try {
+        const isFormCorrect = await this.v$.$validate();
 
-      if (isFormCorrect) {
+        if (!isFormCorrect) return;
+
         const data = {
           email: this.email,
           password: this.password,
         };
-        this.useLogin.loginUser(data);
+
+        const response = await this.useLogin.login({ data });
+
+        this.toast.open({
+          message: `Ha iniciado sesión como ${response.user.name} ${response.user.surname}`,
+          type: "info",
+          position: "top-right",
+          dismissible: true,
+        });
+
+        setTimeout(() => {
+          this.router.push("/");
+        }, 500);
+      } catch (error) {
+        if (error?.name === "Invalid") {
+          this.toast.open({
+            message: "Credenciales inválidas, inténtelo de nuevo",
+            type: "warning",
+            position: "top-right",
+            dismissible: true,
+          });
+        } else {
+          this.toast.open({
+            message: "Error al iniciar sesión",
+            type: "error",
+            position: "top-right",
+            dismissible: true,
+          });
+        }
       }
     },
   },
