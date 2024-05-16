@@ -1,48 +1,41 @@
 import { defineStore } from "pinia";
+import { ref, onMounted } from "vue";
+import { useToast } from "vue-toast-notification";
+
+import axios from "@axios";
+
+const route = "/client/events";
 
 export const useEventsStore = defineStore("events", () => {
-  const events = [
-    {
-      value: "boda_religiosa",
-      name: "Bodas Religiosas",
-    },
-    {
-      value: "boda_civil",
-      name: "Bodas Civiles",
-    },
-    {
-      value: "fiesta_gala",
-      name: "Fiesta de Gala",
-    },
-    {
-      value: "reunion_social",
-      name: "Reunión Social",
-    },
-    {
-      value: "evento_casual",
-      name: "Evento Casual",
-    },
-    {
-      value: "cumple",
-      name: "Cumpleaños",
-    },
-    {
-      value: "xv",
-      name: "XV Años",
-    },
-    {
-      value: "bautizo",
-      name: "Bautizos",
-    },
-    {
-      value: "baby_shower",
-      name: "Baby Showers",
-    },
-    {
-      value: "graduacion",
-      name: "Graduaciones",
-    },
-  ];
+  const events = ref([]);
+  const count = ref(0);
 
-  return { events };
+  const toast = useToast();
+
+  const getAllEvents = async ({ params, update }) => {
+    const response = await axios.get(route, params);
+
+    const shouldUpdate = update ?? false;
+    if (shouldUpdate) {
+      events.value = response.data.rows;
+      count.value = response.data.count;
+    }
+
+    return response.data;
+  };
+
+  // onMounted(async () => {
+  //   try {
+  //     await getAllEvents({ update: true });
+  //   } catch (error) {
+  //     toast.open({
+  //       message: "Error al obtener eventos",
+  //       type: "error",
+  //       position: "top-right",
+  //       dismissible: true,
+  //     });
+  //   }
+  // });
+
+  return { events, getAllEvents };
 });

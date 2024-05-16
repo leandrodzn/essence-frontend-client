@@ -3,8 +3,8 @@
     <img
       @click="redirectTemplate"
       :src="template.image"
-      class="card-img-top"
-      alt="..."
+      class="card-img-top template-image"
+      :alt="template.name"
     />
     <div class="card-body text-center">
       <h4 class="card-title cursor-pointer" @click="redirectTemplate">
@@ -68,6 +68,13 @@ export default {
 };
 </script>
 <style class="scss" scoped>
+.template-image {
+  width: 100%; /* Ajusta la imagen al ancho completo del contenedor */
+  height: 200px; /* Establece una altura fija para la imagen */
+  object-fit: cover; /* Mantiene la relación de aspecto y recorta la imagen si es necesario */
+  /* border-radius: 0px; Agrega bordes redondeados si es necesario */
+}
+
 .card-title {
   font-weight: bold;
   color: var(--primary);
