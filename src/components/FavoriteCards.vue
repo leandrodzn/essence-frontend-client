@@ -12,12 +12,15 @@
   </div>
 
   <div v-if="favorites.length === 0" class="emptyList">
-    <span style="font-size: 120%"
-      >No tiene plantillas marcadas como favoritas
+    <span style="font-size: 120%" v-if="eventSelected">
+      No tiene plantillas marcadas como favoritas coincidentes
+    </span>
+    <span style="font-size: 120%" v-else>
+      No tiene plantillas marcadas como favoritas
     </span>
     <span @click="redirectTemplates" class="cursor-pointer redirectText mt-2">
-      Ir a plantillas</span
-    >
+      Ir a plantillas
+    </span>
   </div>
   <div v-else class="container-xl text-left">
     <div class="row">
