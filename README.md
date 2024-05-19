@@ -1,14 +1,15 @@
+# Essence Creatives
 
-# BeluEssence Creatives
+Essence Creatives is a client web software to help customers to meet the products of Essence Creatives company.
 
-This template should help get you started developing with Vue 3 in Vite.
+This README should help get you started developing with Vue 3 in Vite.
 
-## Run Locally 
-
+## Run Locally
 
 ### Clone the project
 
 bash
+
 ```sh
   git clone https://github.com/leandrodzn/beluessence-creatives-front.git
 ```
@@ -16,25 +17,49 @@ bash
 ### Go to the project directory
 
 bash
+
 ```sh
   cd beluessence-creatives
 ```
 
-### Create your branch
+### Create and change to local branch develop
+
 bash
+
 ```sh
-  git branch name/develop // example: leandro/develop, wilder/develop
+  git checkout -b develop
 ```
 
-### Change to your branch
+### Pull changes of develop branch
+
 bash
+
 ```sh
-  git checkout name/develop
+  git checkout develop
+```
+
+### Create and move to your own develop branch
+
+bash
+
+```sh
+  git checkout -b name/develop // example: leandro/develop, wilder/develop
+```
+
+### Create .env file
+
+Variables
+
+```bash
+
+VITE_APP_API_BACKEND=
+
 ```
 
 ### Install dependencies
 
 bash
+
 ```sh
   npm install
 ```
@@ -42,12 +67,15 @@ bash
 ### Start the server
 
 bash
+
 ```sh
   npm run dev
 ```
 
 ### Push your branch
+
 bash
+
 ```sh
   git push origin name/develop
 ```
@@ -56,4 +84,4 @@ bash
 
 ## Authors
 
-- [@BeluEssence Creatives]()
+- [@Essence Creatives]()
