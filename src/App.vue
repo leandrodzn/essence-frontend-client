@@ -13,7 +13,7 @@
     <nav v-if="!inLogin && !inRegister">
       <RouterLink to="/">Inicio</RouterLink>
       <RouterLink to="/templates">Plantillas</RouterLink>
-      <RouterLink to="/contact">Contacto</RouterLink>
+      <!-- <RouterLink to="/contact">Contacto</RouterLink> -->
       <RouterLink to="/favorites" v-if="isLogged">Favoritos</RouterLink>
       <RouterLink to="/history" v-if="isLogged">Historial</RouterLink>
       <button
