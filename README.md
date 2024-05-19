@@ -1,4 +1,4 @@
-# Essence Creatives
+# Essence Creatives Client
 
 Essence Creatives is a client web software to help customers to meet the products of Essence Creatives company.
 
