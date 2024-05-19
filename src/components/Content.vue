@@ -4,23 +4,30 @@
     <div v-else class="row mb-0">
       <div class="col-lg-7 col-md-12 col-sm-12 col-xs-12">
         <img
-          src="https://asset1.zankyou.com/images/wervice-card-big/20b/1eda/1050/800/w/837417/-/1594225062.jpg"
-          class="img-fluid px-1 py-1"
-          alt="..."
+          :src="template.image"
+          class="img-fluid px-1 py-1 template-image"
+          :alt="template.name"
         />
         <img
-          src="https://asset1.zankyou.com/images/wervice-card-big/20b/1eda/1050/800/w/837417/-/1594225062.jpg"
-          class="img-fluid px-1 py-1"
+          :src="template.image"
+          class="img-fluid px-1 py-1 template-image"
           style="max-width: 50%"
-          alt="..."
+          :alt="template.name"
         />
         <img
-          src="https://asset1.zankyou.com/images/wervice-card-big/20b/1eda/1050/800/w/837417/-/1594225062.jpg"
-          class="img-fluid px-1 py-1"
+          :src="template.image"
+          class="img-fluid px-1 py-1 template-image"
           style="max-width: 50%"
-          alt="..."
+          :alt="template.name"
         />
-        <a class="btn btn-primary custom" href="#" role="button">Ver ejemplo</a>
+        <a
+          class="btn btn-primary custom"
+          :href="template.link"
+          role="button"
+          target="_blank"
+        >
+          Ver ejemplo
+        </a>
       </div>
       <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12 content">
         <h1 class="title text-pink">{{ template.name }}</h1>
@@ -36,17 +43,20 @@
           <p>{{ template.description }}</p>
           <p class="text-pink">Tipo de eventos recomendados:</p>
           <ul>
-            <li v-for="(event, index) in template.events" :key="index">
-              {{ event }}
+            <li
+              v-for="(webTemplateEvent, index) in template.WebTemplateEvents"
+              :key="index"
+            >
+              {{ webTemplateEvent?.Event?.name }}
             </li>
           </ul>
 
           <div class="center">
-            <template v-if="!isFavorite">
+            <template v-if="!favorite">
               <span>Agregar plantilla a favoritos</span>
               <button
                 class="favorite"
-                v-if="!isFavorite"
+                v-if="!favorite"
                 @click="addTemplateToFavorite"
               >
                 <vue-feather
@@ -64,16 +74,16 @@
                   size="36px"
                   stroke="rgb(150, 61, 130)"
                   fill="rgb(150, 61, 130)"
-                ></vue-feather>
+                />
               </button>
             </template>
           </div>
           <p>
-            <small class="text-pink"
-              >Para adquirir tu invitación a partir de esta plantilla, deberás
+            <small class="text-pink">
+              Para adquirir tu invitación a partir de esta plantilla, deberás
               ponerte en contacto con nosotros para realizar la compra y
-              personalización.</small
-            >
+              personalización.
+            </small>
           </p>
         </div>
       </div>
@@ -123,8 +133,7 @@ export default {
   data() {
     return {
       template: {},
-      favorite: false,
-      rating: 0,
+      favorite: null,
     };
   },
 
@@ -142,18 +151,42 @@ export default {
   },
 
   methods: {
-    toggleFavorite() {
-      this.favorite = !this.favorite;
-    },
-    getTemplate() {
-      const template = this.useTemplate.getOneTemplate(this.templateId);
-      this.template = template;
+    async getTemplate() {
+      try {
+        const template = await this.useTemplate.getWebTemplateById({
+          id: this.templateId,
+        });
+
+        this.template = { ...template };
+      } catch (error) {
+        this.toast.open({
+          message: "Error al obtener plantilla web",
+          type: "error",
+          position: "top-right",
+          dismissible: true,
+        });
+      }
     },
 
-    addTemplateToFavorite() {
-      if (this.isLogged) {
-        this.useFavorite.addFavorite(this.templateId);
-      } else {
+    async getTemplateFavorite() {
+      try {
+        const favorite = await this.useTemplate.getWebTemplateFavoriteById({
+          id: this.templateId,
+        });
+
+        this.favorite = favorite || null;
+      } catch (error) {
+        this.toast.open({
+          message: "Error al obtener información de plantilla favorita",
+          type: "error",
+          position: "top-right",
+          dismissible: true,
+        });
+      }
+    },
+
+    async addTemplateToFavorite() {
+      if (!this.isLogged) {
         this.toast.open({
           message: "Inicie sesión para agregar a favoritos",
           type: "info",
@@ -161,11 +194,51 @@ export default {
           dismissible: true,
           onClick: this.redirectLogin,
         });
+        return;
+      }
+
+      try {
+        const favorite = await this.useTemplate.createWebTemplateFavorite({
+          id: this.templateId,
+        });
+
+        this.favorite = favorite || null;
+      } catch (error) {
+        this.toast.open({
+          message: "Error al agregar plantilla a favoritos",
+          type: "error",
+          position: "top-right",
+          dismissible: true,
+        });
       }
     },
 
-    removeTemplateFromFavorites() {
-      this.useFavorite.removeFavorite(this.templateId);
+    async removeTemplateFromFavorites() {
+      if (!this.isLogged) {
+        this.toast.open({
+          message: "Inicie sesión para manejar favoritos",
+          type: "info",
+          position: "top-right",
+          dismissible: true,
+          onClick: this.redirectLogin,
+        });
+        return;
+      }
+
+      try {
+        const favorite = await this.useTemplate.deleteWebTemplateFavorite({
+          id: this.templateId,
+        });
+
+        this.favorite = null;
+      } catch (error) {
+        this.toast.open({
+          message: "Error al remover plantilla de favoritos",
+          type: "error",
+          position: "top-right",
+          dismissible: true,
+        });
+      }
     },
 
     redirectLogin() {
@@ -175,7 +248,11 @@ export default {
   watch: {
     templateId: {
       handler: function (value) {
-        this.getTemplate(value);
+        if (value != -1) {
+          this.getTemplate();
+
+          if (this.isLogged) this.getTemplateFavorite();
+        }
       },
       immediate: true,
     },
@@ -183,6 +260,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.template-image {
+  object-fit: cover; /* Mantiene la relación de aspecto y recorta la imagen si es necesario */
+}
+
 .content {
   text-align: left;
 }

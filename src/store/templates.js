@@ -8,10 +8,6 @@ export const useTemplatesStore = defineStore("templates", () => {
   const templates = ref([]);
   const count = ref(0);
 
-  const getOneTemplate = (id) => {
-    return templates.value.find((template) => template.id === id);
-  };
-
   const getAllWebTemplates = async ({ filters, update }) => {
     const params = {
       filter: filters,
@@ -28,5 +24,37 @@ export const useTemplatesStore = defineStore("templates", () => {
     return response.data;
   };
 
-  return { templates, count, getOneTemplate, getAllWebTemplates };
+  const getWebTemplateById = async ({ id }) => {
+    const response = await axios.get(`${route}/${id}`);
+
+    return response.data;
+  };
+
+  const getWebTemplateFavoriteById = async ({ id }) => {
+    const response = await axios.get(`${route}/${id}/favorite`);
+
+    return response.data;
+  };
+
+  const createWebTemplateFavorite = async ({ id }) => {
+    const response = await axios.post(`${route}/${id}/favorite`);
+
+    return response.data;
+  };
+
+  const deleteWebTemplateFavorite = async ({ id }) => {
+    const response = await axios.delete(`${route}/${id}/favorite`);
+
+    return response;
+  };
+
+  return {
+    templates,
+    count,
+    getAllWebTemplates,
+    getWebTemplateById,
+    getWebTemplateFavoriteById,
+    createWebTemplateFavorite,
+    deleteWebTemplateFavorite,
+  };
 });
