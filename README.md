@@ -4,7 +4,7 @@ Essence Creatives is a client web software to help customers to meet the product
 
 This README should help get you started developing with Vue 3 in Vite.
 
-## Table of contents :card_index:
+## Table of contents
 
 - [Run locally](#run-locally)
   - [Clone the project](#clone-the-project)
