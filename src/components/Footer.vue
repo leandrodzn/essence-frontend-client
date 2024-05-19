@@ -21,7 +21,7 @@
     <div class="row mt-3">
       <div class="col-6 d-flex align-items-center">
         <CopyrightIcon width="15" height="15" style="margin-right: 5px" />
-        <span> 2024. All rights reserved. </span>
+        <span> {{ currentYear }}. All rights reserved. </span>
       </div>
       <div
         class="col-6 d-flex align-items-center justify-content-end"
@@ -58,6 +58,11 @@ export default {
     LinkedinIcon,
     InstagramIcon,
     PinterestIcon,
+  },
+  data: () => {
+    return {
+      currentYear: new Date().getFullYear(),
+    };
   },
 };
 </script>
