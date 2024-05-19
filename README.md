@@ -50,7 +50,7 @@ bash
 bash
 
 ```sh
-  git checkout develop
+  git pull origin develop
 ```
 
 ### Create and move to your own develop branch
