@@ -1,26 +1,21 @@
-import { computed, reactive, onMounted, watch } from "vue";
+import { ref } from "vue";
 import { defineStore } from "pinia";
-import { useTemplatesStore } from "./templates";
-import { useLoginStore } from "./login.js";
-import { useToast } from "vue-toast-notification";
-import "vue-toast-notification/dist/theme-sugar.css";
-import { useRouter } from "vue-router";
+import axios from "@axios";
+
+const route = "/client/template-contact";
 
 export const useHistoryStore = defineStore("history", () => {
-  const useTemplate = useTemplatesStore();
-  const useLogin = useLoginStore();
-  const toast = useToast();
-  const router = useRouter();
+  const history = ref([]);
+  const count = ref(0);
 
-  let history = reactive([]);
+  const createWebTemplateHistory = async ({ id, data }) => {
+    const response = await axios.post(`${route}/${id}`, data);
 
-  const historyList = computed(() => {
-    const user = useLogin.userLogged;
-    return history.filter((template) => template.userId === user.id);
-  });
+    return response.data;
+  };
 
-  const getDateTime = () => {
-    let currentDate = new Date();
+  const getDateTime = (date) => {
+    let currentDate = new Date(date);
 
     let day = currentDate.getDate();
     let month = currentDate.toLocaleString("es-ES", { month: "long" });
@@ -38,65 +33,26 @@ export const useHistoryStore = defineStore("history", () => {
     return formatDateTime;
   };
 
-  const redirectHistory = () => {
-    router.push("/history");
-  };
+  const getAllTemplateContacts = async ({ update }) => {
+    const response = await axios.get(route);
 
-  const addHistory = (id) => {
-    const user = useLogin.userLogged;
-
-    const template = useTemplate.templates.find(
-      (template) => template.id === id
-    );
-
-    if (template) {
-      const item = {
-        ...template,
-        userId: user.id,
-        dateTime: getDateTime(),
+    const rowsWithFormattedDate = (response.data?.rows || []).map((row) => {
+      return {
+        ...row,
+        formattedDate: getDateTime(row.created_at),
       };
+    });
 
-      history.push(item);
+    response.data.rows = rowsWithFormattedDate;
 
-      toast.open({
-        message: "Contacto agregado al historial",
-        type: "success",
-        position: "top-right",
-        dismissible: true,
-        onClick: redirectHistory,
-      });
-    } else {
-      toast.open({
-        message: "Plantilla inexistente",
-        type: "error",
-        position: "top-right",
-        dismissible: true,
-      });
+    const shouldUpdate = update ?? false;
+    if (shouldUpdate) {
+      history.value = response.data.rows;
+      count.value = response.data.count;
     }
+
+    return response.data;
   };
 
-  // Local Storage
-  // Get local storage data
-  const initializeStore = () => {
-    const storedData = localStorage.getItem("historyStore");
-    if (storedData) {
-      history.length = 0;
-      history.push(...JSON.parse(storedData));
-    }
-  };
-
-  // Save local storage data
-  const storeDataInLocalStorage = () => {
-    localStorage.setItem("historyStore", JSON.stringify(history));
-  };
-
-  onMounted(() => {
-    initializeStore();
-  });
-
-  watch([history], () => {
-    storeDataInLocalStorage();
-  });
-
-  return { historyList, addHistory };
+  return { history, count, createWebTemplateHistory, getAllTemplateContacts };
 });

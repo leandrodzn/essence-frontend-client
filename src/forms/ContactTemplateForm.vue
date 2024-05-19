@@ -26,11 +26,11 @@
               aria-label="default input example"
               id="floatingInputSubject"
             />
-            <label for="floatingInputSubject" class="label-primary"
-              >Asunto</label
-            >
+            <label for="floatingInputSubject" class="label-primary">
+              Asunto
+            </label>
             <div v-if="v$.issue.$error" class="form-text">
-              Asunto es requerido
+              Asunto es requerido y no debe ser mayor a 255 caracteres
             </div>
           </div>
 
@@ -45,9 +45,9 @@
               id="floatingTextareaDescription"
               style="min-height: 150px"
             ></textarea>
-            <label for="floatingTextareaDescription" class="label-primary"
-              >Mensaje</label
-            >
+            <label for="floatingTextareaDescription" class="label-primary">
+              Mensaje
+            </label>
             <div v-if="v$.message.$error" class="form-text">
               Mensaje es requerido
             </div>
@@ -75,7 +75,7 @@
 </template>
 <script>
 import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
+import { required, maxLength } from "@vuelidate/validators";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import { useLoginStore } from "../store/login.js";
@@ -112,7 +112,7 @@ export default {
   },
   validations() {
     return {
-      issue: { required },
+      issue: { required, maxLength: maxLength(255) },
       message: { required },
     };
   },
@@ -135,39 +135,46 @@ export default {
       }
 
       const isFormCorrect = await this.v$.$validate();
+      if (!isFormCorrect) return;
 
-      if (isFormCorrect) {
-        try {
-          this.busy = true;
+      try {
+        this.busy = true;
 
-          if (isFormCorrect) {
-            this.toast.open({
-              message: "Mensaje enviado",
-              type: "success",
-              position: "top-right",
-              dismissible: true,
-            });
+        const data = {
+          subject: this.issue,
+          description: this.message,
+        };
 
-            this.useHistory.addHistory(this.templateId);
-          }
-        } catch (error) {
-          this.toast.open({
-            message: "Error al enviar mensaje",
-            type: "error",
-            position: "top-right",
-            dismissible: true,
-          });
-        } finally {
-          // this.busy = false;
-          setTimeout(() => {
-            this.busy = false;
-          }, 500);
-        }
+        const history = await this.useHistory.createWebTemplateHistory({
+          id: this.templateId,
+          data: data,
+        });
+
+        this.toast.open({
+          message: "Contacto realizado, puede ver detalles en el historial",
+          type: "success",
+          position: "top-right",
+          dismissible: true,
+          onClick: this.redirectHistory,
+        });
+      } catch (error) {
+        this.toast.open({
+          message: "Error al realizar contacto",
+          type: "error",
+          position: "top-right",
+          dismissible: true,
+        });
+      } finally {
+        this.busy = false;
       }
     },
 
     redirectLogin() {
       this.router.push("/login");
+    },
+
+    redirectHistory() {
+      this.router.push("/history");
     },
   },
 };

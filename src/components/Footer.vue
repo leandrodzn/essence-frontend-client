@@ -9,7 +9,7 @@
       <div class="col-6 d-flex align-items-center">
         <MailIcon width="25" height="25" style="margin-right: 5px" />
         <a href="mailto:info@beluessencecreatives.com"
-          >info@beluessensecreatives.com</a
+          >info@essensecreatives.com</a
         >
       </div>
       <div class="col-6 d-flex align-items-center justify-content-end">
@@ -21,7 +21,7 @@
     <div class="row mt-3">
       <div class="col-6 d-flex align-items-center">
         <CopyrightIcon width="15" height="15" style="margin-right: 5px" />
-        <span> 2023. All rights reserved. </span>
+        <span> 2024. All rights reserved. </span>
       </div>
       <div
         class="col-6 d-flex align-items-center justify-content-end"
@@ -36,7 +36,7 @@
 
     <div class="row">
       <div class="col-6">
-        <span> Powered by BeluEssence Creatives. </span>
+        <span> Powered by Essence Creatives. </span>
       </div>
     </div>
   </div>
