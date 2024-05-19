@@ -62,9 +62,6 @@ export default {
       toast,
     };
   },
-  props: {
-    favorite: Boolean,
-  },
   computed: {
     templates() {
       return this.useTemplate.templates || [];

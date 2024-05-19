@@ -1,17 +1,17 @@
 <template>
   <div class="container mb-4">
-    <select class="custom-select" v-model="typeSelected">
+    <select class="custom-select" v-model="eventSelected">
       <option selected :value="null">
-        {{ typeSelected ? "Todos" : "Tipo de evento" }}
+        {{ eventSelected ? "Todos" : "Tipo de evento" }}
       </option>
 
-      <option v-for="event in events" :key="event.value" :value="event.value">
+      <option v-for="event in events" :key="event.id" :value="event.id">
         {{ event.name }}
       </option>
     </select>
   </div>
 
-  <div v-if="favoritesList.length === 0" class="emptyList">
+  <div v-if="favorites.length === 0" class="emptyList">
     <span style="font-size: 120%"
       >No tiene plantillas marcadas como favoritas
     </span>
@@ -22,11 +22,15 @@
   <div v-else class="container-xl text-left">
     <div class="row">
       <div
-        v-for="(template, index) in favoritesList"
+        v-for="(template, index) in favorites"
         :key="index"
         class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4"
       >
-        <CardTemplate :template="template" favorite />
+        <CardTemplate
+          :template="template"
+          favorite
+          @refresh="getWebTemplatesFavorites()"
+        />
       </div>
     </div>
   </div>
@@ -36,6 +40,7 @@ import CardTemplate from "./CardTemplate.vue";
 import { useFavoritesStore } from "@/store/favorites.js";
 import { useEventsStore } from "@/store/events.js";
 import { useRouter } from "vue-router";
+import { useToast } from "vue-toast-notification";
 
 export default {
   components: {
@@ -45,45 +50,80 @@ export default {
     const useFavorite = useFavoritesStore();
     const useEvents = useEventsStore();
     const router = useRouter();
-
-    const events = useEvents.events;
+    const toast = useToast();
 
     return {
       useFavorite,
-      events,
+      useEvents,
+      toast,
       router,
     };
   },
-  props: {
-    favorite: Boolean,
-  },
   data: () => ({
-    typeSelected: null,
+    eventSelected: null,
   }),
   computed: {
     favorites() {
-      return this.useFavorite.favoritesList;
+      return (
+        this.useFavorite.favorites.map((favorite) => favorite.WebTemplate) || []
+      );
     },
 
-    favoritesList() {
-      if (this.typeSelected) {
-        const event = this.events.find(
-          (event) => event.value === this.typeSelected
-        );
-
-        const favorites = this.favorites.filter((favorite) => {
-          return favorite.events.includes(event.name);
-        });
-        return favorites;
-      } else {
-        return this.favorites;
-      }
+    events() {
+      return this.useEvents.events || [];
     },
   },
-  mounted() {},
+  mounted() {
+    this.getEvents();
+    this.getWebTemplatesFavorites();
+  },
   methods: {
     redirectTemplates() {
       this.router.push("/templates");
+    },
+
+    async getEvents() {
+      try {
+        await this.useEvents.getAllEvents({ update: true });
+      } catch (error) {
+        this.toast.open({
+          message: "Error al obtener eventos",
+          type: "error",
+          position: "top-right",
+          dismissible: true,
+        });
+      }
+    },
+
+    async getWebTemplatesFavorites() {
+      try {
+        const hasEventSelected = this.eventSelected ?? false;
+
+        const filters = {
+          ...(hasEventSelected
+            ? {
+                event: this.eventSelected,
+              }
+            : {}),
+        };
+
+        await this.useFavorite.getAllWebTemplatesFavorites({
+          filters,
+          update: true,
+        });
+      } catch (error) {
+        this.toast.open({
+          message: "Error al obtener favoritos",
+          type: "error",
+          position: "top-right",
+          dismissible: true,
+        });
+      }
+    },
+  },
+  watch: {
+    eventSelected(newValue, prevValue) {
+      this.getWebTemplatesFavorites();
     },
   },
 };

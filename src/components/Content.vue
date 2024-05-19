@@ -203,6 +203,14 @@ export default {
         });
 
         this.favorite = favorite || null;
+
+        this.toast.open({
+          message: "Plantilla agregada a favoritos",
+          type: "success",
+          position: "top-right",
+          dismissible: true,
+          onClick: this.redirectFavorites,
+        });
       } catch (error) {
         this.toast.open({
           message: "Error al agregar plantilla a favoritos",
@@ -231,6 +239,14 @@ export default {
         });
 
         this.favorite = null;
+
+        this.toast.open({
+          message: "Plantilla removida de favoritos",
+          type: "success",
+          position: "top-right",
+          dismissible: true,
+          onClick: this.redirectFavorites,
+        });
       } catch (error) {
         this.toast.open({
           message: "Error al remover plantilla de favoritos",
@@ -243,6 +259,10 @@ export default {
 
     redirectLogin() {
       this.router.push("/login");
+    },
+
+    redirectFavorites() {
+      this.router.push("/favorites");
     },
   },
   watch: {

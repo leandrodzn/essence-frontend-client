@@ -26,7 +26,7 @@
         stroke="rgb(150, 61, 130)"
         fill="rgb(150, 61, 130)"
         v-if="favorite"
-        @click="unfavorite"
+        @click="removeTemplateFromFavorites"
       ></vue-feather>
     </div>
   </div>
@@ -34,16 +34,25 @@
 <script>
 import { useRouter } from "vue-router";
 import { useFavoritesStore } from "../store/favorites.js";
+import { useTemplatesStore } from "../store/templates.js";
+import { useToast } from "vue-toast-notification";
+import { useLoginStore } from "../store/login.js";
 
 export default {
   components: {},
   setup() {
     const router = useRouter();
+    const useTemplate = useTemplatesStore();
     const useFavorite = useFavoritesStore();
+    const useLogin = useLoginStore();
+    const toast = useToast();
 
     return {
-      router,
+      useTemplate,
       useFavorite,
+      useLogin,
+      toast,
+      router,
     };
   },
   props: {
@@ -56,13 +65,49 @@ export default {
       default: false,
     },
   },
+  computed: {
+    isLogged() {
+      return this.useLogin.isLogged;
+    },
+  },
   methods: {
     redirectTemplate() {
       this.router.push(`/template/${this.template.id}`);
     },
 
-    unfavorite() {
-      this.useFavorite.removeFavorite(this.template.id);
+    async removeTemplateFromFavorites() {
+      if (!this.isLogged) {
+        this.toast.open({
+          message: "Inicie sesión para manejar favoritos",
+          type: "info",
+          position: "top-right",
+          dismissible: true,
+          onClick: this.redirectLogin,
+        });
+        return;
+      }
+
+      try {
+        const favorite = await this.useTemplate.deleteWebTemplateFavorite({
+          id: this.template.id,
+        });
+
+        this.toast.open({
+          message: "Plantilla removida de favoritos",
+          type: "success",
+          position: "top-right",
+          dismissible: true,
+        });
+
+        this.$emit("refresh");
+      } catch (error) {
+        this.toast.open({
+          message: "Error al remover plantilla de favoritos",
+          type: "error",
+          position: "top-right",
+          dismissible: true,
+        });
+      }
     },
   },
 };
