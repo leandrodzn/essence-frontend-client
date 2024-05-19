@@ -4,6 +4,21 @@ Essence Creatives is a client web software to help customers to meet the product
 
 This README should help get you started developing with Vue 3 in Vite.
 
+## Table of contents :card_index:
+
+- [Run locally](#run-locally)
+  - [Clone the project](#clone-the-project)
+  - [Go to the project directory](#go-to-the-project-directory)
+  - [Create and change to local branch develop](#create-and-change-to-local-branch-develop)
+  - [Pull changes of develop branch](#pull-changes-of-develop-branch)
+  - [Create and move to your own develop branch](#create-and-move-to-your-own-develop-branch)
+  - [Create .env file](#create-env-file)
+  - [Install dependencies](#install-dependencies)
+  - [Run project](#run-project)
+  - [Push your branch](#push-your-branch)
+- [Authors](#authors)
+- [Build with](#build-with)
+
 ## Run Locally
 
 ### Clone the project
@@ -64,7 +79,7 @@ bash
   npm install
 ```
 
-### Start the server
+### Run project
 
 bash
 
@@ -85,3 +100,7 @@ bash
 ## Authors
 
 - [@Essence Creatives]()
+
+## Build with
+
+- [Vue 3](https://vuejs.org/) - An approachable, performant and versatile framework for building web user interfaces.
