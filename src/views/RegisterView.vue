@@ -23,7 +23,7 @@ export default {
   font-weight: lighter;
 }
 .bg-register {
-  background-image: url("../../public/register-bg-image.png");
+  background-image: url("register-bg-image.png");
   background-size: cover;
   background-position: center;
   position: relative; /* Añadido para permitir que la capa se posicione correctamente */
