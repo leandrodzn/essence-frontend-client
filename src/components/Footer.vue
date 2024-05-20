@@ -8,9 +8,7 @@
     <div class="row">
       <div class="col-6 d-flex align-items-center">
         <MailIcon width="25" height="25" style="margin-right: 5px" />
-        <a href="mailto:info@beluessencecreatives.com"
-          >info@essensecreatives.com</a
-        >
+        <a href="mailto:info@essencecreatives.com">info@essensecreatives.com</a>
       </div>
       <div class="col-6 d-flex align-items-center justify-content-end">
         <LocationIcon width="25" height="25" />
