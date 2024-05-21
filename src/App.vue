@@ -4,7 +4,7 @@
       alt="BeluEssence Creatives Logo"
       class="logo cursor-pointer"
       :class="{ inLogin: inLogin || inRegister }"
-      src="/logo.svg"
+      src="/Essence_Creatives_Logo.png"
       width="244"
       height="152"
       @click="redirectHome"
