@@ -99,7 +99,16 @@ bash
 
 ## Authors
 
-- [@Essence Creatives]()
+- **Domingo Emmanuel Ciau Uc**
+
+  - [![GitHub](https://img.shields.io/badge/GitHub-EmanuelCiau-red?style=flat&logo=github)](https://github.com/EmanuelCiau)
+
+- **María Belen Couoh Chan**
+
+  - [![GitHub](https://img.shields.io/badge/GitHub-Belen2708-pink?style=flat&logo=github)](https://github.com/Belen2708)
+
+- **Leandro Angel Dzib Nauat**
+  - [![GitHub](https://img.shields.io/badge/GitHub-leandrodzn-green?style=flat&logo=github)](https://github.com/leandrodzn)
 
 ## Build with
 
