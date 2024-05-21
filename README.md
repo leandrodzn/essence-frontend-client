@@ -7,6 +7,7 @@ This README should help get you started developing with Vue 3 in Vite.
 ## Table of contents
 
 - [Design](#design)
+- [Diagrams](/public/diagrams)
 - [Run locally](#run-locally)
   - [Clone the project](#clone-the-project)
   - [Go to the project directory](#go-to-the-project-directory)
