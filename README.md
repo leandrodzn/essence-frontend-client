@@ -6,6 +6,7 @@ This README should help get you started developing with Vue 3 in Vite.
 
 ## Table of contents
 
+- [Design](#design)
 - [Run locally](#run-locally)
   - [Clone the project](#clone-the-project)
   - [Go to the project directory](#go-to-the-project-directory)
@@ -18,6 +19,10 @@ This README should help get you started developing with Vue 3 in Vite.
   - [Push your branch](#push-your-branch)
 - [Authors](#authors)
 - [Build with](#build-with)
+
+## Design
+
+- [Figma Link](https://www.figma.com/design/E0inMPFDdEI434mRk4zFts/BeluEssence-Creatives?node-id=0%3A1&t=4rxSgdFjdew2kWqq-1) - Our client and administrator design is hosted by Figma.
 
 ## Run Locally
 
