@@ -25,6 +25,8 @@ This README should help get you started developing with Vue 3 in Vite.
 
 - [Figma Link](https://www.figma.com/design/E0inMPFDdEI434mRk4zFts/BeluEssence-Creatives?node-id=0%3A1&t=4rxSgdFjdew2kWqq-1) - Our client and administrator design is hosted by Figma.
 
+- [Views](/public/views) - You can see some implemented views now.
+
 ## Run Locally
 
 ### Clone the project
