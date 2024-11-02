@@ -71,26 +71,33 @@
         </div>
       </div>
 
-      <div
-        class="form-floating mb-3"
-        :class="{ error: v$.password.$errors.length }"
-      >
-        <input
-          v-model="password"
-          class="form-control"
-          type="password"
-          placeholder="Contraseña"
-          id="floatingInputSubject"
-        />
-        <label for="floatingInputSubject">Contraseña</label>
-        <div v-if="v$.password.$error" class="validation-text mb-2">
-          Contraseña es requerida
+      <div class="input-group mb-3">
+        <div
+          class="form-floating"
+          :class="{ error: v$.password.$errors.length }"
+        >
+          <input
+            v-model="password"
+            class="form-control"
+            :type="showPassword ? 'text' : 'password'"
+            placeholder="Contraseña"
+            id="floatingInputSubject"
+          />
+          <label for="floatingInputSubject">Contraseña</label>
+          <div v-if="v$.password.$error" class="validation-text mb-2">
+            Contraseña es requerida
+          </div>
         </div>
-
-        <div class="form-text mt-2">
-          La contraseña debe contener mínimo 8 caracteres incluyendo mayúsculas,
-          minúsculas, dígitos y caracteres especiales.
-        </div>
+        <button
+          class="btn btn-outline-primary d-flex align-items-center justify-content-center"
+          type="button"
+          @click="showPassword = !showPassword"
+        >
+          <vue-feather
+            :type="showPassword ? 'eye-off' : 'eye'"
+            size="15"
+          ></vue-feather>
+        </button>
       </div>
 
       <button type="submit" class="btn btn-primary">Crear cuenta</button>
@@ -125,6 +132,7 @@ export default {
       name: "",
       surname: "",
       phone: "",
+      showPassword: false,
     };
   },
   validations() {
