@@ -14,13 +14,13 @@
       ></vue-feather>
     </button>
     <ul class="dropdown-menu" style="">
-      <span class="mx-2 mb-2">
+      <li class="p-2">
         Hola
-        <span style="color: var(--primary)">
+        <span class="label-user">
           {{ useLogin?.userLogged?.name || "" }}
           {{ useLogin?.userLogged?.surname || "" }}
         </span>
-      </span>
+      </li>
       <li>
         <a class="dropdown-item cursor-pointer" @click="logout">
           Cerrar sesión
@@ -43,3 +43,9 @@ export default {
   },
 };
 </script>
+<style lang="css" scoped>
+.label-user {
+  color: var(--primary) !important;
+  font-weight: 500;
+}
+</style>
