@@ -20,33 +20,35 @@
         </div>
       </div>
 
-      <div class="input-group mb-3">
-        <div
-          class="form-floating"
-          :class="{ error: v$.password.$errors.length }"
-        >
-          <input
-            v-model="password"
-            class="form-control"
-            :type="showPassword ? 'text' : 'password'"
-            placeholder="Contraseña"
-            id="floatingInputSubject"
-          />
-          <label for="floatingInputSubject">Contraseña</label>
-          <div v-if="v$.password.$error" class="validation-text mb-2">
-            Contraseña es requerida
+      <div class="mb-3">
+        <div class="input-group">
+          <div
+            class="form-floating"
+            :class="{ error: v$.password.$errors.length }"
+          >
+            <input
+              v-model="password"
+              class="form-control"
+              :type="showPassword ? 'text' : 'password'"
+              placeholder="Contraseña"
+              id="floatingInputSubject"
+            />
+            <label for="floatingInputSubject">Contraseña</label>
           </div>
+          <button
+            class="btn btn-outline-primary d-flex align-items-center justify-content-center"
+            type="button"
+            @click="showPassword = !showPassword"
+          >
+            <vue-feather
+              :type="showPassword ? 'eye-off' : 'eye'"
+              size="15"
+            ></vue-feather>
+          </button>
         </div>
-        <button
-          class="btn btn-outline-primary d-flex align-items-center justify-content-center"
-          type="button"
-          @click="showPassword = !showPassword"
-        >
-          <vue-feather
-            :type="showPassword ? 'eye-off' : 'eye'"
-            size="15"
-          ></vue-feather>
-        </button>
+        <div v-if="v$.password.$error" class="validation-text mb-2">
+          Contraseña es requerida
+        </div>
       </div>
 
       <!-- <RouterLink to="/history" class="forgot-password">
