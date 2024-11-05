@@ -137,5 +137,4 @@ bash
 ## Build with
 
 - [Vue 3](https://vuejs.org/) - An approachable, performant and versatile framework for building web user interfaces.
-- ## Build with
 - [NodeJs](https://nodejs.org/es) - Server runtime environment Version (^ v20.11.0)
