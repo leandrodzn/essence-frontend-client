@@ -6,21 +6,23 @@ This README should help get you started developing with Vue 3 in Vite.
 
 ## Table of contents
 
-- [Design](#design)
-- [Video presentation](#video-presentation)
-- [Diagrams](/public/diagrams)
-- [Run locally](#run-locally)
-  - [Clone the project](#clone-the-project)
-  - [Go to the project directory](#go-to-the-project-directory)
-  - [Create and change to local branch develop](#create-and-change-to-local-branch-develop)
-  - [Pull changes of develop branch](#pull-changes-of-develop-branch)
-  - [Create and move to your own develop branch](#create-and-move-to-your-own-develop-branch)
-  - [Create .env file](#create-env-file)
-  - [Install dependencies](#install-dependencies)
-  - [Run project](#run-project)
-  - [Push your branch](#push-your-branch)
-- [Authors](#authors)
-- [Build with](#build-with)
+- [Essence Creatives Client](#essence-creatives-client)
+  - [Table of contents](#table-of-contents)
+  - [Design](#design)
+  - [Video presentation](#video-presentation)
+  - [Run Locally](#run-locally)
+    - [Clone the project](#clone-the-project)
+    - [Go to the project directory](#go-to-the-project-directory)
+    - [Create and change to local branch develop](#create-and-change-to-local-branch-develop)
+    - [Pull changes of develop branch](#pull-changes-of-develop-branch)
+    - [Create and move to your own develop branch](#create-and-move-to-your-own-develop-branch)
+    - [Create .env file](#create-env-file)
+    - [Install dependencies](#install-dependencies)
+    - [Run project](#run-project)
+    - [Push your branch](#push-your-branch)
+      - [Don't forget to set your global profile in Git](#dont-forget-to-set-your-global-profile-in-git)
+  - [Authors](#authors)
+  - [Build with](#build-with)
 
 ## Design
 
@@ -39,7 +41,7 @@ This README should help get you started developing with Vue 3 in Vite.
 bash
 
 ```sh
-  git clone https://github.com/leandrodzn/beluessence-creatives-front.git
+  git clone https://github.com/leandrodzn/essence-frontend-client.git
 ```
 
 ### Go to the project directory
@@ -47,7 +49,7 @@ bash
 bash
 
 ```sh
-  cd beluessence-creatives
+  cd essence-frontend-client
 ```
 
 ### Create and change to local branch develop
@@ -126,3 +128,5 @@ bash
 ## Build with
 
 - [Vue 3](https://vuejs.org/) - An approachable, performant and versatile framework for building web user interfaces.
+- ## Build with
+- [NodeJs](https://nodejs.org/es) - Server runtime environment Version (^ v20.11.0)
