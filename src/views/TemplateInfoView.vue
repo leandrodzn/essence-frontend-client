@@ -1,13 +1,13 @@
 <template>
   <div class="content">
     <div class="">
-      <content :template-id="template"></content>
+      <Content v-if="template" content :template-id="template" />
     </div>
   </div>
 </template>
 
 <script>
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import Content from "../components/Content.vue";
 
 export default {
@@ -16,22 +16,29 @@ export default {
   },
   setup() {
     const route = useRoute();
+    const router = useRouter();
 
     return {
       route,
+      router,
     };
   },
   data() {
     return {
-      template: -1,
+      template: null,
     };
   },
   mounted() {
-    this.template = isNaN(this.$route.params.id)
-      ? -1
-      : Number(this.$route.params.id);
+    let idValue = this.$route.params.id;
 
-    window.scrollTo(0, 0); // lleva a arriba
+    if (!idValue || !Number.isInteger(Number(idValue))) {
+      this.$router.push({ name: "Templates" });
+      return;
+    }
+
+    this.template = Number(idValue);
+
+    window.scrollTo(0, 0); // Scroll to top of the page
   },
 };
 </script>

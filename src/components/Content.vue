@@ -1,24 +1,34 @@
 <template class="body">
   <div class="container text-center">
-    <div v-if="!template">No encontrado</div>
+    <div v-if="busy" class="m-50">
+      <div class="spinner-grow" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+    <div v-else-if="!template">No encontrado</div>
     <div v-else class="row mb-0">
       <div class="col-lg-7 col-md-12 col-sm-12 col-xs-12">
         <img
-          :src="template.image"
-          class="img-fluid px-1 py-1 template-image"
+          :src="template?.ThumbnailImage?.link || ''"
+          class="img-fluid px-1 py-1 main-template-image"
           :alt="template.name"
+          loading="lazy"
         />
         <img
-          :src="template.image"
-          class="img-fluid px-1 py-1 template-image"
+          v-if="template?.Images?.length > 0"
+          :src="template?.Images[0]?.link || ''"
+          class="img-fluid px-1 py-1 additional-template-image"
           style="max-width: 50%"
           :alt="template.name"
+          loading="lazy"
         />
         <img
-          :src="template.image"
-          class="img-fluid px-1 py-1 template-image"
+          v-if="template?.Images?.length > 0"
+          :src="template?.Images[1]?.link || ''"
+          class="img-fluid px-1 py-1 additional-template-image"
           style="max-width: 50%"
           :alt="template.name"
+          loading="lazy"
         />
         <a
           class="btn btn-primary custom"
@@ -88,7 +98,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <div v-if="!busy" class="row">
       <div class="col-lg-7 col-md-12 col-sm-12 col-xs-12">
         <ContactTemplateForm :templateId="templateId" />
       </div>
@@ -134,6 +144,7 @@ export default {
     return {
       template: {},
       favorite: null,
+      busy: false,
     };
   },
 
@@ -153,18 +164,33 @@ export default {
   methods: {
     async getTemplate() {
       try {
+        this.busy = true;
+
         const template = await this.useTemplate.getWebTemplateById({
           id: this.templateId,
         });
 
         this.template = { ...template };
       } catch (error) {
-        this.toast.open({
-          message: "Error al obtener plantilla web",
-          type: "error",
-          position: "top-right",
-          dismissible: true,
-        });
+        if (error?.name === "NotFound") {
+          // Redirect to templates page
+          this.toast.open({
+            message: "Plantilla web no encontrada",
+            type: "error",
+            position: "top-right",
+            dismissible: true,
+          });
+          this.$router.push({ name: "Templates" });
+        } else {
+          this.toast.open({
+            message: "Error al obtener plantilla web",
+            type: "error",
+            position: "top-right",
+            dismissible: true,
+          });
+        }
+      } finally {
+        this.busy = false;
       }
     },
 
@@ -280,8 +306,16 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.template-image {
-  object-fit: cover; /* Mantiene la relación de aspecto y recorta la imagen si es necesario */
+.main-template-image {
+  object-fit: cover;
+  width: 720px;
+  height: 340px;
+}
+
+.additional-template-image {
+  object-fit: cover;
+  width: 360px;
+  height: 250px;
 }
 
 .content {
