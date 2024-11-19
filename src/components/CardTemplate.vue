@@ -2,7 +2,7 @@
   <div class="card cursor-pointer" style="width: 100%">
     <img
       @click="redirectTemplate"
-      :src="template.image"
+      :src="template.ThumbnailImage?.link"
       class="card-img-top template-image"
       :alt="template.name"
     />
