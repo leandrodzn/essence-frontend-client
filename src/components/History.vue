@@ -22,7 +22,7 @@
             "
           >
             <img
-              :src="contact.WebTemplate?.image || '/Essence_Creatives_Logo.png'"
+              :src="contact.WebTemplate?.ThumbnailImage?.link || '/Essence_Creatives_Logo.png'"
               class="img-fluid rounded-start px-3 py-3 template-image"
               :alt="contact.WebTemplate.name"
             />
