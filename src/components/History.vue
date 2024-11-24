@@ -29,25 +29,30 @@
           </div>
           <div class="col-md-7">
             <div class="card-body">
-              <h3
-                class="card-title cursor-pointer"
-                @click="
-                  redirectTemplate(
-                    contact.WebTemplate.id,
-                    contact.template_available
-                  )
-                "
-              >
-                {{ contact.WebTemplate?.name }}
-              </h3>
-              <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center justify-content-between">
+                <h3
+                  class="card-title cursor-pointer"
+                  @click="
+                    redirectTemplate(
+                      contact.WebTemplate.id,
+                      contact.template_available
+                    )
+                  "
+                >
+                  {{ contact.WebTemplate?.name }}
+                </h3>
+                <DropdownOptions :options="options(contact)" />
+              </div>
+              
+              <div class="d-flex align-items-center gap-1">
                 <vue-feather
                 type="minus"
                 size="30px"
                 stroke="rgb(150, 61, 130)"
                 fill="rgb(150, 61, 130)"
                 ></vue-feather>
-                <span class="badge text-bg-primary" v-if="contact?.readed">{{ 'Leído' }}</span>
+                <span class="badge text-bg-primary" v-if="contact.readed">Leído</span>
+                <span class="badge text-bg-dark" v-if="!contact.show_admin">Eliminada por administrador</span>
               </div>
               
               <p
@@ -70,14 +75,29 @@
         </div>
       </div>
     </div>
+
+    <!-- Modal Confirmation Delete -->
+    <ConfirmationModal
+      v-if="showModalDelete"
+      :title="'Eliminar solicitud'"
+      :message="'¿Está seguro de eliminar esta solicitud? Será removida de la lista y se actualizará su estado para los administradores'"
+      @cancel="resetHistoryDelete"
+      @confirm="deleteHistoryItem"
+    />
   </div>
 </template>
 <script>
 import { useHistoryStore } from "../store/history.js";
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toast-notification";
+import DropdownOptions from "./DropdownOptions.vue";
+import ConfirmationModal from "./ConfirmationModal.vue";
 
 export default {
+  components: {
+    DropdownOptions,
+    ConfirmationModal
+  },
   setup() {
     const useHistory = useHistoryStore();
     const router = useRouter();
@@ -91,11 +111,14 @@ export default {
   },
   computed: {
     contacts() {
-      return this.useHistory.history;
+      return this.useHistory.history.map(history => ({...history, busy: false}));
     },
   },
   data() {
-    return {};
+    return {
+      showModalDelete: false,
+      itemToDelete: null
+    };
   },
   async mounted() {
     await this.getContactHistory();
@@ -132,6 +155,56 @@ export default {
         });
       }
     },
+
+    showModalConfirmationDelete (history) {
+      if (!history?.id) return
+
+      this.itemToDelete = history
+      this.showModalDelete = true
+    },
+
+    resetHistoryDelete() {
+      this.itemToDelete = null
+      this.showModalDelete = false
+    },
+
+    async deleteHistoryItem() {
+      if (!this.itemToDelete?.id) return
+
+      try {
+        this.itemToDelete.busy = true
+        await this.useHistory.deleteWebTemplateContact({id: this.itemToDelete.id})
+
+        this.toast.open({
+          message: 'Solicitud eliminada',
+          type: 'success',
+          position: 'top-right',
+          dismissible: true
+        })
+
+        this.getContactHistory()
+      } catch (error) {
+        this.toast.open({
+          message: 'Error al eliminar solicitud',
+          type: 'error',
+          position: 'top-right',
+          dismissible: true
+        })
+      } finally {
+        this.itemToDelete.busy = false
+        this.resetHistoryDelete()
+      }
+    },
+
+    options(contact) {
+      return [
+        {
+          label: 'Eliminar para mí',
+          icon: 'trash-2',
+          action: () => this.showModalConfirmationDelete(contact)
+        }
+      ]
+    } 
   },
 };
 </script>

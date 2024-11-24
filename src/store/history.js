@@ -54,5 +54,17 @@ export const useHistoryStore = defineStore("history", () => {
     return response.data;
   };
 
-  return { history, count, createWebTemplateHistory, getAllTemplateContacts };
+  const deleteWebTemplateContact = async ({ id }) => {
+    const response = await axios.delete(`${route}/${id}`);
+
+    return response.data;
+  };
+
+  return {
+    history,
+    count,
+    createWebTemplateHistory,
+    getAllTemplateContacts,
+    deleteWebTemplateContact,
+  };
 });
