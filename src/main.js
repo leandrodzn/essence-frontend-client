@@ -19,4 +19,14 @@ app.use(ToastPlugin);
 
 app.component(VueFeather.name, VueFeather);
 
+// Inicializa los tooltips globalmente
+app.mixin({
+  mounted() {
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    const tooltipList = [...tooltipTriggerList].map(
+      tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl)
+    );
+  },
+});
+
 app.mount("#app");
