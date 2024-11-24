@@ -56,8 +56,11 @@
             <li
               v-for="(webTemplateEvent, index) in template.WebTemplateEvents"
               :key="index"
+              
             >
-              {{ webTemplateEvent?.Event?.name }}
+              <span data-bs-toggle="tooltip" :data-bs-title="webTemplateEvent?.Event?.description">
+                {{ webTemplateEvent?.Event?.name }}
+              </span>
             </li>
           </ul>
 
