@@ -40,12 +40,16 @@
               >
                 {{ contact.WebTemplate?.name }}
               </h3>
-              <vue-feather
+              <div class="d-flex align-items-center">
+                <vue-feather
                 type="minus"
                 size="30px"
                 stroke="rgb(150, 61, 130)"
                 fill="rgb(150, 61, 130)"
-              ></vue-feather>
+                ></vue-feather>
+                <span class="badge text-bg-primary" v-if="contact?.readed">{{ 'Leído' }}</span>
+              </div>
+              
               <p
                 class="card-text cursor-pointer"
                 @click="
