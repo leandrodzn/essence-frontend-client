@@ -117,7 +117,7 @@ export default {
 }
 
 .subtitle {
-  width: 700px;
+  max-width: 100%;
   margin: 0 auto;
 }
 @media (min-width: 1024px) {
