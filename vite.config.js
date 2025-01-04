@@ -12,7 +12,4 @@ export default defineConfig({
       "@axios": fileURLToPath(new URL("./src/config/axios", import.meta.url)),
     },
   },
-  server: {
-    historyApiFallback: true, // for vue-router
-  },
 });
